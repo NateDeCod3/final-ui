@@ -1,0 +1,102 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+body.light-mode {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content {
+    flex: 1; /* Ensure the content takes up available space */
+    padding: 20px;
+}
+
+footer {
+    background-color: #f8f9fa;
+    padding: 10px;
+    text-align: center;
+    border-top: 1px solid #ddd;
+}
+
+.app-container.light {
+    background-color: #f9f9f9;
+}
+
+.app-container.dark {
+    background-color: #1e1e1e;
+}
+
+.app-card {
+    max-width: 800px;
+    height: 90vh;
+    margin: auto;
+    background-color: #ffffff;
+    border-radius: 15px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-container {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.content-header {
+    margin-bottom: 20px;
+}
+
+.image-container {
+    position: relative;
+    margin-top: 20px;
+}
+
+.image-container img {
+    max-width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.overlay-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.overlay-btn.left {
+    left: 10px;
+}
+
+.overlay-btn.right {
+    right: 10px;
+}
+
+.overlay-btn:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}

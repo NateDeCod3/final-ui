@@ -1,0 +1,81 @@
+.home {
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+
+.card-container {
+    max-width: 600px;
+    width: 100%;
+}
+
+.card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.image-container {
+    position: relative;
+}
+
+.overlay-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.overlay-btn.left {
+    left: 10px;
+}
+
+.overlay-btn.right {
+    right: 10px;
+}
+
+.overlay-btn:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.btn {
+    font-size: 1rem;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+.btn-secondary, .btn-danger {
+    padding: 5px 10px;
+    font-size: 1rem;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    color: white;
+}
+
+.btn-secondary i, .btn-danger i {
+    font-size: 1.2rem;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
