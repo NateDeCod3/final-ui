@@ -70,46 +70,43 @@ const Home = ({ isDarkMode }) => {
     };
 
     return (
-        <div className="post-card" style={{ backgroundColor: isDarkMode ? '#222' : '#fff' }}>
-            <div className="post-header">
-                <img src="https://via.placeholder.com/40" alt="User Avatar" className="user-avatar"/>
-                <span className="username">John Doe</span>
-            </div>
+        <div className="content-container" style={{ backgroundColor: isDarkMode ? '#1e1e1e' : '#fff' }}>
+            <div className="post-content">
+                <div className="action-buttons">
+                    <button 
+                        className="btn btn-secondary" 
+                        onClick={() => navigate(`/edit/${data[currentIndex]?.id}`)}
+                    >
+                        <i className="bi bi-pencil"></i>
+                    </button>
+                    <button 
+                        className="btn btn-danger" 
+                        onClick={() => setShowDeletePopup(true)}
+                    >
+                        <i className="bi bi-trash"></i>
+                    </button>
+                </div>
 
-            <h3 className="post-title">{data[currentIndex]?.title || 'No Title Available'}</h3>
-            <p className="post-description">
-                {data[currentIndex]?.description || 'No Description Available'}
-            </p>
+                <h3 className="post-title">{data[currentIndex]?.title || 'No Title Available'}</h3>
+                <p className="post-description">
+                    {data[currentIndex]?.description || 'No Description Available'}
+                </p>
 
-            <div className="image-container">
-                <img
-                    src={getImageSource()}
-                    alt={data[currentIndex]?.title || 'Placeholder'}
-                    onError={(e) => {
-                        e.target.src = 'https://placehold.co/600x400?text=No+Image';
-                    }}
-                />
-                <button className="overlay-btn left" onClick={handlePrevious}>
-                    &#8592;
-                </button>
-                <button className="overlay-btn right" onClick={handleNext}>
-                    &#8594;
-                </button>
-            </div>
-
-            <div className="actions">
-                <button 
-                    className="btn btn-secondary" 
-                    onClick={() => navigate(`/edit/${data[currentIndex]?.id}`)}
-                >
-                    <i className="bi bi-pencil"></i> Edit
-                </button>
-                <button 
-                    className="btn btn-danger" 
-                    onClick={() => setShowDeletePopup(true)}
-                >
-                    <i className="bi bi-trash"></i> Delete
-                </button>
+                <div className="image-container">
+                    <img
+                        src={getImageSource()}
+                        alt={data[currentIndex]?.title || 'Placeholder'}
+                        onError={(e) => {
+                            e.target.src = 'https://placehold.co/600x400?text=No+Image';
+                        }}
+                    />
+                    <button className="overlay-btn left" onClick={handlePrevious}>
+                        &#8592;
+                    </button>
+                    <button className="overlay-btn right" onClick={handleNext}>
+                        &#8594;
+                    </button>
+                </div>
             </div>
 
             {showDeletePopup && (
