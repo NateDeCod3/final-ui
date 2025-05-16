@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import DeleteConfirmation from '../components/DeleteConfirmation';
 
+const BASE_URL = 'https://final-api-o03a.onrender.com';
+
 const Search = ({ isDarkMode }) => {
     const [keyword, setKeyword] = useState('');
     const [results, setResults] = useState([]);
@@ -17,7 +19,7 @@ const Search = ({ isDarkMode }) => {
         const fetchAllPosts = async () => {
             setLoading(true);
             try {
-                const response = await axios.get('http://localhost:8080/manansala/posts');
+                const response = await axios.get(`${BASE_URL}/posts`);
                 setResults(response.data);
             } catch (err) {
                 console.error('Error fetching all posts:', err);
@@ -36,7 +38,7 @@ const Search = ({ isDarkMode }) => {
 
         if (!searchKey.trim()) {
             // If search input is empty, fetch all posts
-            const response = await axios.get('http://localhost:8080/manansala/posts');
+            const response = await axios.get(`${BASE_URL}/posts`);
             setResults(response.data);
             return;
         }
@@ -45,7 +47,7 @@ const Search = ({ isDarkMode }) => {
         setError(null);
 
         try {
-            const response = await axios.get(`http://localhost:8080/manansala/posts/search/${searchKey}`);
+            const response = await axios.get(`${BASE_URL}/posts/search/${searchKey}`);
             setResults(response.data);
         } catch (err) {
             console.error('Error fetching search results:', err);
@@ -57,7 +59,7 @@ const Search = ({ isDarkMode }) => {
 
     const handleDelete = async (postId) => {
         try {
-            await axios.delete(`http://localhost:8080/manansala/posts/${postId}`);
+            await axios.delete(`${BASE_URL}/posts/${postId}`);
             setResults(results.filter((post) => post.id !== postId)); // Remove the deleted post from the results
             setShowDeletePopup(false);
         } catch (err) {
@@ -86,50 +88,17 @@ const Search = ({ isDarkMode }) => {
                             style={{
                                 backgroundColor: isDarkMode ? '#222' : '#FFFFFF',
                                 color: isDarkMode ? '#FFF' : '#000',
-                                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
                                 border: isDarkMode ? '1px solid #444' : '1px solid #DDD',
-                                borderRadius: '10px',
-                                padding: '15px',
                             }}
                         >
-                            <h3 style={{ fontWeight: 'bold', marginBottom: '10px' }}>{post.title}</h3>
-                            <p style={{ marginBottom: '10px' }}>{post.description}</p>
-                            {post.mediaUrl && (
-                                <img
-                                    src={post.mediaUrl}
-                                    alt={post.title}
-                                    style={{
-                                        maxWidth: '100%',
-                                        maxHeight: '200px',
-                                        objectFit: 'cover',
-                                        borderRadius: '10px',
-                                    }}
-                                />
-                            )}
+                            <h3>{post.title}</h3>
+                            <p>{post.description}</p>
+                            {post.mediaUrl && <img src={post.mediaUrl} alt={post.title} style={{ maxWidth: '100%' }} />}
                             <div className="d-flex justify-content-end mt-3">
-                                <button
-                                    className="btn btn-secondary me-2"
-                                    onClick={() => navigate(`/edit/${post.id}`)} // Navigate to the edit page
-                                    style={{
-                                        background: 'none',
-                                        border: 'none',
-                                        color: isDarkMode ? '#FFFFFF' : '#000000', // Black in light mode
-                                    }}
-                                >
+                                <button className="btn btn-secondary me-2" onClick={() => navigate(`/edit/${post.id}`)}>
                                     <i className="bi bi-pencil"></i>
                                 </button>
-                                <button
-                                    className="btn btn-danger"
-                                    onClick={() => {
-                                        setPostToDelete(post.id);
-                                        setShowDeletePopup(true);
-                                    }} // Trigger delete confirmation popup
-                                    style={{
-                                        background: 'none',
-                                        border: 'none',
-                                        color: isDarkMode ? '#FFFFFF' : '#000000', // Black in light mode
-                                    }}
-                                >
+                                <button className="btn btn-danger" onClick={() => { setPostToDelete(post.id); setShowDeletePopup(true); }}>
                                     <i className="bi bi-trash"></i>
                                 </button>
                             </div>
@@ -141,11 +110,7 @@ const Search = ({ isDarkMode }) => {
             </div>
 
             {showDeletePopup && (
-                <DeleteConfirmation
-                    postId={postToDelete}
-                    onConfirm={handleDelete} // Handle delete functionality
-                    onCancel={() => setShowDeletePopup(false)} // Close the popup
-                />
+                <DeleteConfirmation postId={postToDelete} onConfirm={handleDelete} onCancel={() => setShowDeletePopup(false)} />
             )}
         </div>
     );
