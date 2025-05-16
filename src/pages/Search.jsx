@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { getPosts, searchPosts, deletePost } from '../api';
 import DeleteConfirmation from '../components/DeleteConfirmation';
-
-const BASE_URL = 'https://final-api-o03a.onrender.com';
 
 const Search = ({ isDarkMode }) => {
     const [keyword, setKeyword] = useState('');
@@ -15,12 +13,11 @@ const Search = ({ isDarkMode }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Fetch all posts by default
         const fetchAllPosts = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`${BASE_URL}/posts`);
-                setResults(response.data);
+                const posts = await getPosts();
+                setResults(posts);
             } catch (err) {
                 console.error('Error fetching all posts:', err);
                 setError('Failed to fetch data. Please try again.');
@@ -37,9 +34,8 @@ const Search = ({ isDarkMode }) => {
         setKeyword(searchKey);
 
         if (!searchKey.trim()) {
-            // If search input is empty, fetch all posts
-            const response = await axios.get(`${BASE_URL}/posts`);
-            setResults(response.data);
+            const posts = await getPosts();
+            setResults(posts);
             return;
         }
 
@@ -47,8 +43,8 @@ const Search = ({ isDarkMode }) => {
         setError(null);
 
         try {
-            const response = await axios.get(`${BASE_URL}/posts/search/${searchKey}`);
-            setResults(response.data);
+            const searchResults = await searchPosts(searchKey);
+            setResults(searchResults);
         } catch (err) {
             console.error('Error fetching search results:', err);
             setError('Failed to fetch search results. Please try again.');
@@ -59,8 +55,8 @@ const Search = ({ isDarkMode }) => {
 
     const handleDelete = async (postId) => {
         try {
-            await axios.delete(`${BASE_URL}/posts/${postId}`);
-            setResults(results.filter((post) => post.id !== postId)); // Remove the deleted post from the results
+            await deletePost(postId);
+            setResults(results.filter((post) => post.id !== postId));
             setShowDeletePopup(false);
         } catch (err) {
             console.error('Error deleting post:', err);
@@ -110,7 +106,11 @@ const Search = ({ isDarkMode }) => {
             </div>
 
             {showDeletePopup && (
-                <DeleteConfirmation postId={postToDelete} onConfirm={handleDelete} onCancel={() => setShowDeletePopup(false)} />
+                <DeleteConfirmation 
+                    postId={postToDelete} 
+                    onConfirm={handleDelete} 
+                    onCancel={() => setShowDeletePopup(false)} 
+                />
             )}
         </div>
     );
