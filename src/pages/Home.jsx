@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import DeleteConfirmation from '../components/DeleteConfirmation';
 
+const BASE_URL = 'https://final-api-o03a.onrender.com';
+
 const Home = ({ isDarkMode }) => {
     const [data, setData] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -16,7 +18,7 @@ const Home = ({ isDarkMode }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/manansala/posts');
+                const response = await axios.get(`${BASE_URL}/posts`);
                 setData(response.data);
                 setLoading(false);
             } catch (err) {
@@ -39,7 +41,7 @@ const Home = ({ isDarkMode }) => {
 
     const handleDelete = async (postId) => {
         try {
-            await axios.delete(`http://localhost:8080/manansala/posts/${postId}`);
+            await axios.delete(`${BASE_URL}/posts/${postId}`);
             setData(data.filter((post) => post.id !== postId));
             setShowDeletePopup(false);
             window.location.reload(); // Refresh the page after deletion
