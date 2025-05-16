@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { getPosts, deletePost } from '../api';
 import DeleteConfirmation from '../components/DeleteConfirmation';
-
-const BASE_URL = 'https://final-api-o03a.onrender.com';
 
 const Home = ({ isDarkMode }) => {
     const [data, setData] = useState([]);
@@ -11,15 +9,13 @@ const Home = ({ isDarkMode }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showDeletePopup, setShowDeletePopup] = useState(false);
-    const [expanded, setExpanded] = useState(false);
-    const [showCaptionPopup, setShowCaptionPopup] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${BASE_URL}/posts`);
-                setData(response.data);
+                const posts = await getPosts();
+                setData(posts);
                 setLoading(false);
             } catch (err) {
                 console.error('Error fetching data:', err);
@@ -41,10 +37,9 @@ const Home = ({ isDarkMode }) => {
 
     const handleDelete = async (postId) => {
         try {
-            await axios.delete(`${BASE_URL}/posts/${postId}`);
+            await deletePost(postId);
             setData(data.filter((post) => post.id !== postId));
             setShowDeletePopup(false);
-            window.location.reload(); // Refresh the page after deletion
         } catch (err) {
             console.error('Error deleting post:', err);
         }
@@ -62,6 +57,19 @@ const Home = ({ isDarkMode }) => {
         return <div className="text-center">No Data Available</div>;
     }
 
+    // Fallback image source
+    const getImageSource = () => {
+        const defaultImage = 'https://placehold.co/600x400?text=No+Image';
+        try {
+            if (data[currentIndex]?.mediaUrl) {
+                return data[currentIndex].mediaUrl;
+            }
+            return defaultImage;
+        } catch {
+            return defaultImage;
+        }
+    };
+
     return (
         <div className="content-container">
             <div className="content-header d-flex justify-content-between align-items-center">
@@ -76,22 +84,22 @@ const Home = ({ isDarkMode }) => {
                 <div>
                     <button
                         className="btn btn-secondary me-2"
-                        onClick={() => navigate(`/edit/${data[currentIndex]?.id}`)} // Navigate to the edit page
+                        onClick={() => navigate(`/edit/${data[currentIndex]?.id}`)}
                         style={{
                             background: 'none',
                             border: 'none',
-                            color: isDarkMode ? '#FFFFFF' : '#000000', // Black in light mode
+                            color: isDarkMode ? '#FFFFFF' : '#000000',
                         }}
                     >
                         <i className="bi bi-pencil"></i>
                     </button>
                     <button
                         className="btn btn-danger"
-                        onClick={() => setShowDeletePopup(true)} // Trigger delete confirmation popup
+                        onClick={() => setShowDeletePopup(true)}
                         style={{
                             background: 'none',
                             border: 'none',
-                            color: isDarkMode ? '#FFFFFF' : '#000000', // Black in light mode
+                            color: isDarkMode ? '#FFFFFF' : '#000000',
                         }}
                     >
                         <i className="bi bi-trash"></i>
@@ -100,12 +108,12 @@ const Home = ({ isDarkMode }) => {
             </div>
             <div className="image-container">
                 <img
-                    src={data[currentIndex]?.mediaUrl || 'https://via.placeholder.com/500'}
+                    src={getImageSource()}
                     alt={data[currentIndex]?.title || 'Placeholder'}
                     className="img-fluid rounded"
                     style={{ maxHeight: '300px', objectFit: 'cover' }}
                     onError={(e) => {
-                        e.target.src = 'https://via.placeholder.com/500'; // Fallback image
+                        e.target.src = 'https://placehold.co/600x400?text=No+Image';
                     }}
                 />
             </div>
@@ -127,8 +135,8 @@ const Home = ({ isDarkMode }) => {
             {showDeletePopup && (
                 <DeleteConfirmation
                     postId={data[currentIndex]?.id}
-                    onConfirm={handleDelete} // Handle delete functionality
-                    onCancel={() => setShowDeletePopup(false)} // Close the popup
+                    onConfirm={handleDelete}
+                    onCancel={() => setShowDeletePopup(false)}
                 />
             )}
         </div>
