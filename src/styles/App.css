@@ -12,7 +12,7 @@ body {
 
 #root {
   width: 100%;
-  max-width: 450px;
+  max-width: 600px;
   height: 100vh;
   margin: 0 auto;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
@@ -68,6 +68,33 @@ body.dark-mode .footer {
   background: linear-gradient(to right, #001f3f, #003366);
 }
 
+/* Content Container */
+.content-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px;
+}
+
+.post-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.action-buttons button {
+  padding: 8px 12px;
+}
+
 /* Image container */
 .image-container {
   width: 100%;
@@ -75,6 +102,7 @@ body.dark-mode .footer {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .image-container img {
@@ -84,56 +112,145 @@ body.dark-mode .footer {
   border-radius: 10px;
 }
 
-/* Post card */
-.post-card {
-  width: 100%;
-  height: auto;
-  min-height: 500px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 15px;
-  box-sizing: border-box;
-}
-
-.post-header {
-  display: flex;
-  align-items: center;
+/* Text styles */
+.post-title {
+  font-size: 1.8rem;
   margin-bottom: 15px;
 }
 
-.user-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 10px;
+.post-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
 }
 
-.username {
+/* Navigation buttons */
+.overlay-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.overlay-btn.left {
+  left: 15px;
+}
+
+.overlay-btn.right {
+  right: 15px;
+}
+
+/* Form styles */
+.form-control {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 5px;
   font-weight: bold;
 }
 
-.post-title {
-  font-size: 1.5rem;
-  margin: 10px 0;
+.alert {
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  text-align: center;
 }
 
-.post-description {
-  margin: 15px 0;
-  line-height: 1.5;
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
 }
 
-.actions {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 20px;
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
 }
 
-.actions button {
-  padding: 8px 15px;
+/* Buttons */
+.btn {
+  padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 1rem;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Dark mode text colors */
+body.dark-mode .post-title,
+body.dark-mode .post-description,
+body.dark-mode .username,
+body.dark-mode .form-label,
+body.dark-mode .form-control,
+body.dark-mode .form-control::placeholder,
+body.dark-mode .upload h2,
+body.dark-mode .edit h2,
+body.dark-mode .search h2 {
+  color: white !important;
+}
+
+body.dark-mode .form-control {
+  background-color: #333;
+  border-color: #555;
+}
+
+body.dark-mode .alert-info {
+  background-color: #004085;
+  color: white !important;
+}
+
+body.dark-mode .post-card,
+body.dark-mode .search .post-card {
+  background-color: #222;
+}
+
+body.dark-mode .btn-secondary {
+  background-color: #5a6268;
+}
+
+/* Upload, Edit, Search pages */
+.upload, .edit, .search {
+  padding: 20px;
+}
+
+.search input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+/* Results in search page */
+.results {
+  margin-top: 20px;
 }
 
 /* Delete confirmation popup */
@@ -185,85 +302,5 @@ body.dark-mode .footer {
 
 .delete-popup-confirm {
   background-color: #ff4d4d;
-  color: white;
-}
-
-/* Navigation buttons */
-.overlay-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  padding: 12px 18px;
-  border-radius: 50%;
-  font-size: 1.5rem;
-  cursor: pointer;
-  z-index: 10;
-}
-
-.overlay-btn.left {
-  left: 15px;
-}
-
-.overlay-btn.right {
-  right: 15px;
-}
-
-/* Form styles */
-.form-control {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-sizing: border-box;
-}
-
-.alert {
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 5px;
-  text-align: center;
-}
-
-.alert-success {
-  background-color: #d4edda;
-  color: #155724;
-}
-
-.alert-danger {
-  background-color: #f8d7da;
-  color: #721c24;
-}
-
-/* Buttons */
-.btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.btn-primary {
-  background-color: #007bff;
-  color: white;
-}
-
-.btn-secondary {
-  background-color: #6c757d;
-  color: white;
-}
-
-.btn-danger {
-  background-color: #dc3545;
-  color: white;
-}
-
-/* Dark mode text colors */
-body.dark-mode .post-title,
-body.dark-mode .post-description,
-body.dark-mode .username {
   color: white;
 }
