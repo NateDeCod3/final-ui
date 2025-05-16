@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPost } from '../api';
 
-const Upload = () => {
+const Upload = ({ isDarkMode }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [imageUrl, setImageUrl] = useState('');
@@ -37,7 +37,7 @@ const Upload = () => {
     };
 
     return (
-        <div className="upload p-4">
+        <div className={`upload ${isDarkMode ? 'dark-mode' : ''}`}>
             <h2 className="text-center mb-4">Upload a Post</h2>
             {message && <div className="alert alert-info text-center">{message}</div>}
             <form onSubmit={handleSubmit} className="mx-auto" style={{ maxWidth: '500px' }}>
@@ -49,6 +49,7 @@ const Upload = () => {
                         className="form-control"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
+                        placeholder="Enter post title"
                         required
                     />
                 </div>
@@ -60,6 +61,7 @@ const Upload = () => {
                         rows="4"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
+                        placeholder="Enter post description"
                         required
                     ></textarea>
                 </div>
@@ -71,7 +73,7 @@ const Upload = () => {
                         className="form-control"
                         value={imageUrl}
                         onChange={(e) => setImageUrl(e.target.value)}
-                        placeholder="Enter an image URL"
+                        placeholder="Paste image URL here"
                         required
                     />
                 </div>
