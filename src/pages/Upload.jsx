@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-
-const BASE_URL = 'https://final-api-o03a.onrender.com/manansala';
+import { createPost } from '../api';
 
 const Upload = () => {
     const [title, setTitle] = useState('');
@@ -22,16 +20,16 @@ const Upload = () => {
         const postData = {
             title,
             description,
-            mediaUrl: imageUrl, // Use imageUrl as mediaUrl
+            mediaUrl: imageUrl,
         };
 
         try {
-            await axios.post(`${BASE_URL}/post`, postData);
+            await createPost(postData);
             setMessage('Post uploaded successfully!');
             setTitle('');
             setDescription('');
             setImageUrl('');
-            navigate('/'); // Redirect to home page after successful upload
+            navigate('/');
         } catch (err) {
             console.error('Error uploading post:', err);
             setMessage('Failed to upload post. Please try again.');
@@ -81,7 +79,7 @@ const Upload = () => {
                     <button
                         type="button"
                         className="btn btn-secondary"
-                        onClick={() => navigate('/')} // Cancel button navigates to home page
+                        onClick={() => navigate('/')}
                     >
                         Cancel
                     </button>
