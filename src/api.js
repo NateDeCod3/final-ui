@@ -53,7 +53,7 @@ export const deletePost = async (id) => {
 
 export const searchPosts = async (keyword) => {
     try {
-        const response = await axios.get(`${BASE_URL}/search/${keyword}`);
+        const response = await axios.get(`${BASE_URL}/search/${keyword.toLowerCase()}`);
         return response.data;
     } catch (error) {
         console.error('Error searching posts:', error);
