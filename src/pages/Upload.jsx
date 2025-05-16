@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const BASE_URL = 'https://final-api-o03a.onrender.com';
+const BASE_URL = 'https://final-api-o03a.onrender.com/manansala';
 
 const Upload = () => {
     const [title, setTitle] = useState('');
