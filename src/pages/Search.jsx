@@ -103,10 +103,19 @@ const Search = ({ isDarkMode }) => {
                             <p>{post.description}</p>
                             {post.mediaUrl && <img src={post.mediaUrl} alt={post.title} style={{ maxWidth: '100%' }} />}
                             <div className="d-flex justify-content-end mt-3">
-                                <button className="btn btn-secondary me-2" onClick={() => navigate(/edit/${post.id})}>
+                                <button 
+                                    className="btn btn-secondary me-2" 
+                                    onClick={() => navigate(`/edit/${post.id}`)}
+                                >
                                     <i className="bi bi-pencil"></i>
                                 </button>
-                                <button className="btn btn-danger" onClick={() => { setPostToDelete(post.id); setShowDeletePopup(true); }}>
+                                <button 
+                                    className="btn btn-danger" 
+                                    onClick={() => { 
+                                        setPostToDelete(post.id); 
+                                        setShowDeletePopup(true); 
+                                    }}
+                                >
                                     <i className="bi bi-trash"></i>
                                 </button>
                             </div>
