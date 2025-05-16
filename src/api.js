@@ -1,6 +1,4 @@
-import axios from 'axios';
-
-const BASE_URL = 'http://localhost:8080/manansala';
+const BASE_URL = 'https://final-api-o03a.onrender.com'; 
 
 export const getPosts = async () => await axios.get(`${BASE_URL}/posts`);
 export const createPost = async (postData) => await axios.post(`${BASE_URL}/post`, postData);
