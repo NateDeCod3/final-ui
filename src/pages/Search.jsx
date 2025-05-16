@@ -76,12 +76,12 @@ const Search = ({ isDarkMode }) => {
     };
 
     return (
-        <div className="search p-3">
+        <div className={`search p-3 ${isDarkMode ? 'dark-mode' : ''}`}>
             <h2 className="text-center mb-4">Search Posts</h2>
             <input
                 type="text"
                 className="form-control mb-3"
-                placeholder="Search..."
+                placeholder="Search posts..."
                 value={keyword}
                 onChange={handleSearch}
             />
