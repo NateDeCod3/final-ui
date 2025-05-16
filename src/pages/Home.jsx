@@ -57,7 +57,6 @@ const Home = ({ isDarkMode }) => {
         return <div className="text-center">No Data Available</div>;
     }
 
-    // Fallback image source
     const getImageSource = () => {
         const defaultImage = 'https://placehold.co/600x400?text=No+Image';
         try {
@@ -71,64 +70,45 @@ const Home = ({ isDarkMode }) => {
     };
 
     return (
-        <div className="content-container">
-            <div className="content-header d-flex justify-content-between align-items-center">
-                <div>
-                    <h2 style={{ color: isDarkMode ? '#FFFFFF' : '#000000' }}>
-                        {data[currentIndex]?.title || 'No Title Available'}
-                    </h2>
-                    <p style={{ marginTop: '5px', color: isDarkMode ? '#FFFFFF' : '#000000' }}>
-                        {data[currentIndex]?.description || 'No Description Available'}
-                    </p>
-                </div>
-                <div>
-                    <button
-                        className="btn btn-secondary me-2"
-                        onClick={() => navigate(`/edit/${data[currentIndex]?.id}`)}
-                        style={{
-                            background: 'none',
-                            border: 'none',
-                            color: isDarkMode ? '#FFFFFF' : '#000000',
-                        }}
-                    >
-                        <i className="bi bi-pencil"></i>
-                    </button>
-                    <button
-                        className="btn btn-danger"
-                        onClick={() => setShowDeletePopup(true)}
-                        style={{
-                            background: 'none',
-                            border: 'none',
-                            color: isDarkMode ? '#FFFFFF' : '#000000',
-                        }}
-                    >
-                        <i className="bi bi-trash"></i>
-                    </button>
-                </div>
+        <div className="post-card" style={{ backgroundColor: isDarkMode ? '#222' : '#fff' }}>
+            <div className="post-header">
+                <img src="https://via.placeholder.com/40" alt="User Avatar" className="user-avatar"/>
+                <span className="username">John Doe</span>
             </div>
+
+            <h3 className="post-title">{data[currentIndex]?.title || 'No Title Available'}</h3>
+            <p className="post-description">
+                {data[currentIndex]?.description || 'No Description Available'}
+            </p>
+
             <div className="image-container">
                 <img
                     src={getImageSource()}
                     alt={data[currentIndex]?.title || 'Placeholder'}
-                    className="img-fluid rounded"
-                    style={{ maxHeight: '300px', objectFit: 'cover' }}
                     onError={(e) => {
                         e.target.src = 'https://placehold.co/600x400?text=No+Image';
                     }}
                 />
-            </div>
-            <div className="image-container position-relative">
-                <button
-                    className="btn btn-primary overlay-btn left"
-                    onClick={handlePrevious}
-                >
+                <button className="overlay-btn left" onClick={handlePrevious}>
                     &#8592;
                 </button>
-                <button
-                    className="btn btn-primary overlay-btn right"
-                    onClick={handleNext}
-                >
+                <button className="overlay-btn right" onClick={handleNext}>
                     &#8594;
+                </button>
+            </div>
+
+            <div className="actions">
+                <button 
+                    className="btn btn-secondary" 
+                    onClick={() => navigate(`/edit/${data[currentIndex]?.id}`)}
+                >
+                    <i className="bi bi-pencil"></i> Edit
+                </button>
+                <button 
+                    className="btn btn-danger" 
+                    onClick={() => setShowDeletePopup(true)}
+                >
+                    <i className="bi bi-trash"></i> Delete
                 </button>
             </div>
 
