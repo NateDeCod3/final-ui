@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+const BASE_URL = 'https://final-api-o03a.onrender.com';
+
 const Edit = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -16,7 +18,7 @@ const Edit = () => {
         // Fetch the post data by ID
         const fetchPost = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/manansala/posts/${id}`);
+                const response = await axios.get(`${BASE_URL}/posts/${id}`);
                 const { title, description, mediaUrl } = response.data;
                 setTitle(title);
                 setDescription(description);
@@ -43,7 +45,7 @@ const Edit = () => {
         const updatedPost = { title, description, mediaUrl };
 
         try {
-            await axios.put(`http://localhost:8080/manansala/posts/${id}`, updatedPost);
+            await axios.put(`${BASE_URL}/posts/${id}`, updatedPost);
             setMessage('Post updated successfully!');
             setTimeout(() => navigate('/'), 1000); // Redirect to home after 1 second
         } catch (err) {
