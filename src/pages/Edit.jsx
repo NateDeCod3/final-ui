@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-
-const BASE_URL = 'https://final-api-o03a.onrender.com';
+import { getPostById, updatePost } from '../api';
 
 const Edit = () => {
     const { id } = useParams();
@@ -15,18 +13,21 @@ const Edit = () => {
     const [message, setMessage] = useState('');
 
     useEffect(() => {
-        // Fetch the post data by ID
         const fetchPost = async () => {
             try {
-                const response = await axios.get(`${BASE_URL}/posts/${id}`);
-                const { title, description, mediaUrl } = response.data;
-                setTitle(title);
-                setDescription(description);
-                setMediaUrl(mediaUrl);
-                setLoading(false);
+                setLoading(true);
+                setError(null);
+                const post = await getPostById(id);
+                if (!post) {
+                    throw new Error('Post not found');
+                }
+                setTitle(post.title);
+                setDescription(post.description);
+                setMediaUrl(post.mediaUrl);
             } catch (err) {
                 console.error('Error fetching post:', err);
-                setError('Failed to fetch post. Please try again.');
+                setError(err.response?.data?.message || err.message || 'Failed to fetch post. Please try again.');
+            } finally {
                 setLoading(false);
             }
         };
@@ -45,17 +46,18 @@ const Edit = () => {
         const updatedPost = { title, description, mediaUrl };
 
         try {
-            await axios.put(`${BASE_URL}/posts/${id}`, updatedPost);
+            setMessage('');
+            await updatePost(id, updatedPost);
             setMessage('Post updated successfully!');
-            setTimeout(() => navigate('/'), 1000); // Redirect to home after 1 second
+            setTimeout(() => navigate('/'), 1000);
         } catch (err) {
             console.error('Error updating post:', err);
-            setMessage('Failed to update post. Please try again.');
+            setMessage(err.response?.data?.message || err.message || 'Failed to update post. Please try again.');
         }
     };
 
     const handleCancel = () => {
-        navigate('/'); // Redirect to home page
+        navigate('/');
     };
 
     if (loading) {
@@ -69,7 +71,11 @@ const Edit = () => {
     return (
         <div className="edit p-4">
             <h2 className="text-center mb-4">Edit Post</h2>
-            {message && <div className="alert alert-info text-center">{message}</div>}
+            {message && (
+                <div className={`alert ${message.includes('success') ? 'alert-success' : 'alert-danger'} text-center`}>
+                    {message}
+                </div>
+            )}
             <form onSubmit={handleSave} className="mx-auto" style={{ maxWidth: '500px' }}>
                 <div className="mb-3">
                     <label htmlFor="title" className="form-label">Title</label>
