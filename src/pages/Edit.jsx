@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getPostById, updatePost } from '../api';
 
-const Edit = () => {
+const Edit = ({ isDarkMode }) => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [title, setTitle] = useState('');
@@ -69,7 +69,7 @@ const Edit = () => {
     }
 
     return (
-        <div className="edit p-4">
+        <div className={`edit p-4 ${isDarkMode ? 'dark-mode' : ''}`}>
             <h2 className="text-center mb-4">Edit Post</h2>
             {message && (
                 <div className={`alert ${message.includes('success') ? 'alert-success' : 'alert-danger'} text-center`}>
@@ -85,6 +85,7 @@ const Edit = () => {
                         className="form-control"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
+                        placeholder="Enter post title"
                         required
                     />
                 </div>
@@ -96,6 +97,7 @@ const Edit = () => {
                         rows="4"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
+                        placeholder="Enter post description"
                         required
                     ></textarea>
                 </div>
@@ -107,6 +109,7 @@ const Edit = () => {
                         className="form-control"
                         value={mediaUrl}
                         onChange={(e) => setMediaUrl(e.target.value)}
+                        placeholder="Paste image URL here"
                         required
                     />
                 </div>
