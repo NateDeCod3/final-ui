@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+const BASE_URL = 'https://final-api-o03a.onrender.com';
+
 const Upload = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -24,7 +26,7 @@ const Upload = () => {
         };
 
         try {
-            await axios.post('http://localhost:8080/manansala/post', postData);
+            await axios.post(`${BASE_URL}/post`, postData);
             setMessage('Post uploaded successfully!');
             setTitle('');
             setDescription('');
