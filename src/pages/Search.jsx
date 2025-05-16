@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getPosts, searchPosts, deletePost } from '../api';
 import DeleteConfirmation from '../components/DeleteConfirmation';
@@ -10,6 +10,7 @@ const Search = ({ isDarkMode }) => {
     const [error, setError] = useState(null);
     const [showDeletePopup, setShowDeletePopup] = useState(false);
     const [postToDelete, setPostToDelete] = useState(null);
+    const searchTimeout = useRef(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -27,30 +28,41 @@ const Search = ({ isDarkMode }) => {
         };
 
         fetchAllPosts();
+        return () => {
+            if (searchTimeout.current) {
+                clearTimeout(searchTimeout.current);
+            }
+        };
     }, []);
 
     const handleSearch = async (e) => {
         const searchKey = e.target.value;
         setKeyword(searchKey);
 
-        if (!searchKey.trim()) {
-            const posts = await getPosts();
-            setResults(posts);
-            return;
+        if (searchTimeout.current) {
+            clearTimeout(searchTimeout.current);
         }
 
-        setLoading(true);
-        setError(null);
+        searchTimeout.current = setTimeout(async () => {
+            if (!searchKey.trim()) {
+                const posts = await getPosts();
+                setResults(posts);
+                return;
+            }
 
-        try {
-            const searchResults = await searchPosts(searchKey);
-            setResults(searchResults);
-        } catch (err) {
-            console.error('Error fetching search results:', err);
-            setError('Failed to fetch search results. Please try again.');
-        } finally {
-            setLoading(false);
-        }
+            setLoading(true);
+            setError(null);
+
+            try {
+                const searchResults = await searchPosts(searchKey);
+                setResults(searchResults);
+            } catch (err) {
+                console.error('Error fetching search results:', err);
+                setError('Failed to fetch search results. Please try again.');
+            } finally {
+                setLoading(false);
+            }
+        }, 300);
     };
 
     const handleDelete = async (postId) => {
@@ -91,7 +103,7 @@ const Search = ({ isDarkMode }) => {
                             <p>{post.description}</p>
                             {post.mediaUrl && <img src={post.mediaUrl} alt={post.title} style={{ maxWidth: '100%' }} />}
                             <div className="d-flex justify-content-end mt-3">
-                                <button className="btn btn-secondary me-2" onClick={() => navigate(`/edit/${post.id}`)}>
+                                <button className="btn btn-secondary me-2" onClick={() => navigate(/edit/${post.id})}>
                                     <i className="bi bi-pencil"></i>
                                 </button>
                                 <button className="btn btn-danger" onClick={() => { setPostToDelete(post.id); setShowDeletePopup(true); }}>
