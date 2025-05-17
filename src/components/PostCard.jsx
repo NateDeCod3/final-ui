@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/PostCard.css';
 
 const PostCard = ({ post, onDelete, isDarkMode }) => {
     const navigate = useNavigate();
