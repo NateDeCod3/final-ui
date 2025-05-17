@@ -1,123 +1,121 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getPosts, deletePost } from '../api';
-import DeleteConfirmation from '../components/DeleteConfirmation';
+/* Post Card Container */
+.post-card {
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
 
-const Home = ({ isDarkMode }) => {
-    const [data, setData] = useState([]);
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [showDeletePopup, setShowDeletePopup] = useState(false);
-    const navigate = useNavigate();
+/* Header Section */
+.post-header {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+}
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const posts = await getPosts();
-                setData(posts);
-                setLoading(false);
-            } catch (err) {
-                console.error('Error fetching data:', err);
-                setError('Failed to fetch data. Please check the API endpoint or server.');
-                setLoading(false);
-            }
-        };
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+}
 
-        fetchData();
-    }, []);
+.username {
+    font-weight: 600;
+}
 
-    const handleNext = () => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % data.length);
-    };
+/* Text Content */
+.post-text-content {
+    padding: 0 15px;
+    text-align: left;
+    margin-bottom: 15px;
+}
 
-    const handlePrevious = () => {
-        setCurrentIndex((prevIndex) => (prevIndex - 1 + data.length) % data.length);
-    };
+.post-title {
+    font-size: 1.4rem;
+    margin: 0 0 10px 0;
+}
 
-    const handleDelete = async (postId) => {
-        try {
-            await deletePost(postId);
-            setData(data.filter((post) => post.id !== postId));
-            setShowDeletePopup(false);
-        } catch (err) {
-            console.error('Error deleting post:', err);
-        }
-    };
+.post-description {
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
 
-    if (loading) {
-        return <div className="text-center">Loading...</div>;
-    }
+.expand-btn {
+    background: none;
+    border: none;
+    color: #1E90FF;
+    cursor: pointer;
+    padding: 0;
+    font-size: 0.9rem;
+}
 
-    if (error) {
-        return <div className="text-center text-danger">{error}</div>;
-    }
+/* Media Container */
+.media-container {
+    width: 100%;
+    margin: 15px 0;
+}
 
-    if (data.length === 0) {
-        return <div className="text-center">No Data Available</div>;
-    }
+.post-image {
+    width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+    border-radius: 8px;
+}
 
-    const getImageSource = () => {
-        const defaultImage = 'https://placehold.co/600x400?text=No+Image';
-        try {
-            if (data[currentIndex]?.mediaUrl) {
-                return data[currentIndex].mediaUrl;
-            }
-            return defaultImage;
-        } catch {
-            return defaultImage;
-        }
-    };
+.video-embed {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+    border-radius: 8px;
+}
 
-    return (
-        <div className="content-container" style={{ backgroundColor: isDarkMode ? '#1e1e1e' : '#fff' }}>
-            <div className="post-content">
-                <div className="action-buttons">
-                    <button 
-                        className="btn btn-secondary" 
-                        onClick={() => navigate(`/edit/${data[currentIndex]?.id}`)}
-                    >
-                        <i className="bi bi-pencil"></i>
-                    </button>
-                    <button 
-                        className="btn btn-danger" 
-                        onClick={() => setShowDeletePopup(true)}
-                    >
-                        <i className="bi bi-trash"></i>
-                    </button>
-                </div>
+.video-embed iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
 
-                <h3 className="post-title">{data[currentIndex]?.title || 'No Title Available'}</h3>
-                <p className="post-description">
-                    {data[currentIndex]?.description || 'No Description Available'}
-                </p>
+/* Action Buttons */
+.post-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 15px;
+    gap: 10px;
+}
 
-                <div className="image-container">
-                    <img
-                        src={getImageSource()}
-                        alt={data[currentIndex]?.title || 'Placeholder'}
-                        onError={(e) => {
-                            e.target.src = 'https://placehold.co/600x400?text=No+Image';
-                        }}
-                    />
-                    <button className="overlay-btn left" onClick={handlePrevious}>
-                        &#8592;
-                    </button>
-                    <button className="overlay-btn right" onClick={handleNext}>
-                        &#8594;
-                    </button>
-                </div>
-            </div>
+.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
 
-            {showDeletePopup && (
-                <DeleteConfirmation
-                    postId={data[currentIndex]?.id}
-                    onConfirm={handleDelete}
-                    onCancel={() => setShowDeletePopup(false)}
-                />
-            )}
-        </div>
-    );
-};
+.action-btn.dark {
+    color: white;
+}
 
-export default Home;
+.action-btn.light {
+    color: black;
+}
+
+.action-btn:hover {
+    opacity: 0.8;
+}
+
+/* Dark Mode Styles */
+body.dark-mode .post-card {
+    background-color: #222;
+    border-color: #444;
+}
