@@ -1,0 +1,95 @@
+.upload-page {
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.upload-page.light {
+    background-color: white;
+    color: #333;
+}
+
+.upload-page.dark {
+    background-color: #1e1e1e;
+    color: white;
+}
+
+.upload-page h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.upload-page .form-group {
+    margin-bottom: 15px;
+}
+
+.upload-page label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.upload-page input,
+.upload-page textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.upload-page.dark input,
+.upload-page.dark textarea {
+    background-color: #333;
+    border-color: #555;
+    color: white;
+}
+
+.upload-page textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.upload-page .form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.upload-page button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.upload-page button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+}
+
+.upload-page button[type="button"] {
+    background-color: #6c757d;
+    color: white;
+}
+
+.upload-page .message {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.upload-page .message.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.upload-page.dark .message.success {
+    background-color: #004085;
+    color: white;
+}
+
+.upload-page .message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
