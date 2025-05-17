@@ -1,18 +1,17 @@
-.home-container {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
+/* Post Card Container */
+.post-card {
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.post-content {
-    width: 100%;
-}
-
+/* Header Section */
 .post-header {
     display: flex;
     align-items: center;
-    margin-bottom: 15px;
+    padding: 15px;
 }
 
 .user-avatar {
@@ -20,29 +19,43 @@
     height: 40px;
     border-radius: 50%;
     margin-right: 10px;
+    object-fit: cover;
 }
 
+.username {
+    font-weight: 600;
+}
+
+/* Text Content */
 .post-text-content {
+    padding: 0 15px;
     text-align: left;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .post-title {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     margin: 0 0 10px 0;
-    color: inherit;
 }
 
 .post-description {
-    font-size: 1rem;
     line-height: 1.5;
-    margin: 0;
-    color: inherit;
+    margin-bottom: 10px;
 }
 
+.expand-btn {
+    background: none;
+    border: none;
+    color: #1E90FF;
+    cursor: pointer;
+    padding: 0;
+    font-size: 0.9rem;
+}
+
+/* Media Container */
 .media-container {
     width: 100%;
-    margin: 20px 0;
+    margin: 15px 0;
 }
 
 .post-image {
@@ -50,12 +63,11 @@
     max-height: 400px;
     object-fit: contain;
     border-radius: 8px;
-    display: block;
 }
 
 .video-embed {
     position: relative;
-    padding-bottom: 56.25%;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
     height: 0;
     overflow: hidden;
     border-radius: 8px;
@@ -70,46 +82,40 @@
     border: none;
 }
 
-.action-buttons {
+/* Action Buttons */
+.post-actions {
     display: flex;
     justify-content: flex-end;
+    padding: 0 15px;
     gap: 10px;
-    padding-top: 15px;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.edit-btn, .delete-btn {
-    background: transparent;
+.action-btn {
+    background: none;
     border: none;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 0.9rem;
     display: flex;
     align-items: center;
     gap: 5px;
     padding: 8px 12px;
+    border-radius: 6px;
 }
 
-.edit-btn.light, .delete-btn.light {
+.action-btn.dark {
+    color: white;
+}
+
+.action-btn.light {
     color: black;
 }
 
-.edit-btn.dark, .delete-btn.dark {
-    color: white;
+.action-btn:hover {
+    opacity: 0.8;
 }
 
-.no-posts {
-    text-align: center;
-    padding: 40px;
-    font-size: 1.2rem;
-}
-
-/* Dark Mode */
-.dark-mode .post-header,
-.dark-mode .post-text-content,
-.dark-mode .action-buttons {
-    color: white;
-}
-
-.dark-mode .action-buttons {
-    border-top-color: #444;
+/* Dark Mode Styles */
+body.dark-mode .post-card {
+    background-color: #222;
+    border-color: #444;
 }
