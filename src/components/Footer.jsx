@@ -5,21 +5,16 @@ const Footer = ({ isDarkMode }) => {
     const navigate = useNavigate();
 
     return (
-        <footer
-            className="footer"
-            style={{
-                background: isDarkMode
-                    ? 'linear-gradient(to right, #001f3f, #003366)'
-                    : 'linear-gradient(to right, #87CEFA, #4682B4)',
-                height: '60px', // Consistent height
-            }}
-        >
+        <footer className="footer">
             <button
                 className="footer-icon"
                 onClick={() => navigate('/')}
                 style={{
-                    color: isDarkMode ? '#1E90FF' : '#0000FF', // Same color as "Z"
+                    color: isDarkMode ? '#1E90FF' : '#0000FF',
                     fontSize: '1.5rem',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
                 }}
                 onMouseEnter={(e) => (e.target.style.color = isDarkMode ? '#FFFFFF' : '#00008B')}
                 onMouseLeave={(e) => (e.target.style.color = isDarkMode ? '#1E90FF' : '#0000FF')}
@@ -30,8 +25,11 @@ const Footer = ({ isDarkMode }) => {
                 className="footer-icon"
                 onClick={() => navigate('/search')}
                 style={{
-                    color: isDarkMode ? '#1E90FF' : '#0000FF', // Match home icon color in light mode
+                    color: isDarkMode ? '#1E90FF' : '#0000FF',
                     fontSize: '1.5rem',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
                 }}
                 onMouseEnter={(e) => (e.target.style.color = isDarkMode ? '#FFFFFF' : '#00008B')}
                 onMouseLeave={(e) => (e.target.style.color = isDarkMode ? '#1E90FF' : '#0000FF')}
