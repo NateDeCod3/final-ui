@@ -1,32 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getPostById, updatePost } from '../api';
+import '../styles/Edit.css';
 
 const Edit = ({ isDarkMode }) => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [mediaUrl, setMediaUrl] = useState('');
+    const [formData, setFormData] = useState({
+        title: '',
+        description: '',
+        mediaUrl: ''
+    });
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [message, setMessage] = useState('');
 
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                setLoading(true);
-                setError(null);
                 const post = await getPostById(id);
-                if (!post) {
-                    throw new Error('Post not found');
-                }
-                setTitle(post.title);
-                setDescription(post.description);
-                setMediaUrl(post.mediaUrl);
+                if (!post) throw new Error('Post not found');
+                setFormData({
+                    title: post.title,
+                    description: post.description,
+                    mediaUrl: post.mediaUrl
+                });
             } catch (err) {
-                console.error('Error fetching post:', err);
-                setError(err.response?.data?.message || err.message || 'Failed to fetch post. Please try again.');
+                setMessage(err.response?.data?.message || err.message || 'Failed to fetch post');
             } finally {
                 setLoading(false);
             }
@@ -35,87 +34,74 @@ const Edit = ({ isDarkMode }) => {
         fetchPost();
     }, [id]);
 
-    const handleSave = async (e) => {
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!title || !description || !mediaUrl) {
-            setMessage('All fields are required.');
+        if (!formData.title || !formData.description || !formData.mediaUrl) {
+            setMessage('All fields are required');
             return;
         }
 
-        const updatedPost = { title, description, mediaUrl };
-
         try {
-            setMessage('');
-            await updatePost(id, updatedPost);
+            await updatePost(id, formData);
             setMessage('Post updated successfully!');
             setTimeout(() => navigate('/'), 1000);
         } catch (err) {
-            console.error('Error updating post:', err);
-            setMessage(err.response?.data?.message || err.message || 'Failed to update post. Please try again.');
+            setMessage(err.response?.data?.message || err.message || 'Failed to update post');
         }
     };
 
-    const handleCancel = () => {
-        navigate('/');
-    };
-
-    if (loading) {
-        return <div className="text-center">Loading...</div>;
-    }
-
-    if (error) {
-        return <div className="text-center text-danger">{error}</div>;
-    }
+    if (loading) return <div className="loading">Loading...</div>;
 
     return (
-        <div className={`edit p-4 ${isDarkMode ? 'dark-mode' : ''}`}>
-            <h2 className="text-center mb-4">Edit Post</h2>
+        <div className={`edit-page ${isDarkMode ? 'dark' : 'light'}`}>
+            <h2>Edit Post</h2>
             {message && (
-                <div className={`alert ${message.includes('success') ? 'alert-success' : 'alert-danger'} text-center`}>
+                <div className={`message ${message.includes('success') ? 'success' : 'error'}`}>
                     {message}
                 </div>
             )}
-            <form onSubmit={handleSave} className="mx-auto" style={{ maxWidth: '500px' }}>
-                <div className="mb-3">
-                    <label htmlFor="title" className="form-label">Title</label>
+            <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label htmlFor="title">Title</label>
                     <input
                         type="text"
                         id="title"
-                        className="form-control"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        placeholder="Enter post title"
+                        name="title"
+                        value={formData.title}
+                        onChange={handleChange}
                         required
                     />
                 </div>
-                <div className="mb-3">
-                    <label htmlFor="description" className="form-label">Description</label>
+                <div className="form-group">
+                    <label htmlFor="description">Description</label>
                     <textarea
                         id="description"
-                        className="form-control"
-                        rows="4"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        placeholder="Enter post description"
+                        name="description"
+                        value={formData.description}
+                        onChange={handleChange}
                         required
-                    ></textarea>
+                    />
                 </div>
-                <div className="mb-3">
-                    <label htmlFor="mediaUrl" className="form-label">Image Link</label>
+                <div className="form-group">
+                    <label htmlFor="mediaUrl">Media URL</label>
                     <input
                         type="text"
                         id="mediaUrl"
-                        className="form-control"
-                        value={mediaUrl}
-                        onChange={(e) => setMediaUrl(e.target.value)}
-                        placeholder="Paste image URL here"
+                        name="mediaUrl"
+                        value={formData.mediaUrl}
+                        onChange={handleChange}
                         required
                     />
                 </div>
-                <div className="d-flex justify-content-between">
-                    <button type="button" className="btn btn-secondary" onClick={handleCancel}>Cancel</button>
-                    <button type="submit" className="btn btn-primary">Save Changes</button>
+                <div className="form-actions">
+                    <button type="button" onClick={() => navigate('/')}>Cancel</button>
+                    <button type="submit">Save Changes</button>
                 </div>
             </form>
         </div>
