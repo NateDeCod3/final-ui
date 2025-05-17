@@ -1,72 +1,8 @@
-body {
-    font-family: Arial, sans-serif;
-}
-
-/* Header & Footer */
-.header, .footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    border-radius: 10px;
-    width: 100%;
-}
-
-.logo {
-    font-size: 2rem;
-    font-weight: bold;
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-
-/* Post Card */
-.post-card {
-    background: #222;
-    padding: 20px;
-    border-radius: 15px;
-    width: 450px;
-    max-width: 90%;
-    text-align: center;
-    margin: auto;
-}
-
-/* Image Handling */
-.image-container {
-    width: 100%;
-    height: 250px;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.post-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 10px;
-}
-
-/* Footer Icons */
-.footer-icon {
-    font-size: 1.5rem;
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: color 0.3s ease, transform 0.2s ease;
-}
-
-.footer-icon:hover {
-    transform: scale(1.1);
-}
-
-.upload-btn {
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.upload-btn:hover {
-    transform: scale(1.1);
+:root {
+    --primary-light: #1E90FF;
+    --primary-dark: #001f3f;
+    --text-light: #333;
+    --text-dark: #fff;
+    --bg-light: #f8f9fa;
+    --bg-dark: #121212;
 }
