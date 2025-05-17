@@ -8,7 +8,6 @@ const Edit = ({ isDarkMode }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [mediaUrl, setMediaUrl] = useState('');
-    const [mediaType, setMediaType] = useState('image');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [message, setMessage] = useState('');
@@ -25,7 +24,6 @@ const Edit = ({ isDarkMode }) => {
                 setTitle(post.title);
                 setDescription(post.description);
                 setMediaUrl(post.mediaUrl);
-                setMediaType(post.mediaType || 'image');
             } catch (err) {
                 console.error('Error fetching post:', err);
                 setError(err.response?.data?.message || err.message || 'Failed to fetch post. Please try again.');
@@ -45,7 +43,7 @@ const Edit = ({ isDarkMode }) => {
             return;
         }
 
-        const updatedPost = { title, description, mediaUrl, mediaType };
+        const updatedPost = { title, description, mediaUrl };
 
         try {
             setMessage('');
@@ -104,28 +102,14 @@ const Edit = ({ isDarkMode }) => {
                     ></textarea>
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="mediaType" className="form-label">Media Type</label>
-                    <select
-                        id="mediaType"
-                        className="form-control"
-                        value={mediaType}
-                        onChange={(e) => setMediaType(e.target.value)}
-                    >
-                        <option value="image">Image</option>
-                        <option value="video">Video (YouTube or direct link)</option>
-                    </select>
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="mediaUrl" className="form-label">
-                        {mediaType === 'image' ? 'Image URL' : 'Video URL'}
-                    </label>
+                    <label htmlFor="mediaUrl" className="form-label">Image Link</label>
                     <input
                         type="text"
                         id="mediaUrl"
                         className="form-control"
                         value={mediaUrl}
                         onChange={(e) => setMediaUrl(e.target.value)}
-                        placeholder={mediaType === 'image' ? 'Paste image URL here' : 'Paste YouTube or video URL here'}
+                        placeholder="Paste image URL here"
                         required
                     />
                 </div>
