@@ -12,7 +12,7 @@
 
 .home-page.dark {
     background-color: #1e1e1e;
-    color: white !important;
+    color: white;
 }
 
 .loading, .no-posts {
@@ -21,7 +21,11 @@
 }
 
 .home-page.dark .no-posts {
-    color: white;
+    color: white !important;
+}
+
+.home-page.light .no-posts {
+    color: black !important;
 }
 
 .navigation-buttons {
