@@ -1,121 +1,48 @@
-/* Post Card Container */
-.post-card {
-    border-radius: 12px;
-    overflow: hidden;
-    margin-bottom: 25px;
-    padding-bottom: 15px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+.home-page {
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+    min-height: 100vh;
 }
 
-/* Header Section */
-.post-header {
-    display: flex;
-    align-items: center;
-    padding: 15px;
+.home-page.light {
+    background-color: white;
+    color: #333;
 }
 
-.user-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-    object-fit: cover;
-}
-
-.username {
-    font-weight: 600;
-}
-
-/* Text Content */
-.post-text-content {
-    padding: 0 15px;
-    text-align: left;
-    margin-bottom: 15px;
-}
-
-.post-title {
-    font-size: 1.4rem;
-    margin: 0 0 10px 0;
-}
-
-.post-description {
-    line-height: 1.5;
-    margin-bottom: 10px;
-}
-
-.expand-btn {
-    background: none;
-    border: none;
-    color: #1E90FF;
-    cursor: pointer;
-    padding: 0;
-    font-size: 0.9rem;
-}
-
-/* Media Container */
-.media-container {
-    width: 100%;
-    margin: 15px 0;
-}
-
-.post-image {
-    width: 100%;
-    max-height: 400px;
-    object-fit: contain;
-    border-radius: 8px;
-}
-
-.video-embed {
-    position: relative;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
-    height: 0;
-    overflow: hidden;
-    border-radius: 8px;
-}
-
-.video-embed iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-
-/* Action Buttons */
-.post-actions {
-    display: flex;
-    justify-content: flex-end;
-    padding: 0 15px;
-    gap: 10px;
-}
-
-.action-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    padding: 8px 12px;
-    border-radius: 6px;
-}
-
-.action-btn.dark {
+.home-page.dark {
+    background-color: #1e1e1e;
     color: white;
 }
 
-.action-btn.light {
-    color: black;
+.loading, .no-posts {
+    text-align: center;
+    padding: 40px;
 }
 
-.action-btn:hover {
-    opacity: 0.8;
+.home-page.dark .no-posts {
+    color: #aaa;
 }
 
-/* Dark Mode Styles */
-body.dark-mode .post-card {
-    background-color: #222;
-    border-color: #444;
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding: 0 15px;
+}
+
+.navigation-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.navigation-buttons button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.7;
 }
