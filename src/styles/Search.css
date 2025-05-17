@@ -16,8 +16,7 @@
     text-align: center;
     margin-bottom: 20px;
     font-size: 1.8rem;
-    /* Inherits color from parent (either light or dark mode) */
-    color: inherit;
+    color: white !important;
 }
 
 .search-input {
