@@ -2,21 +2,26 @@
 .search-container {
     padding: 20px;
     height: 100%;
-    /* Light mode text color (don't change this line) */
+    /* Default light mode text color */
     color: #333;
 }
 
 .search-container.dark-mode {
     background-color: #1e1e1e;
-    /* Dark mode text color - change to white */
+    /* Dark mode text color */
     color: white;
 }
 
+/* Search title - black in light mode, white in dark mode */
 .search-title {
     text-align: center;
     margin-bottom: 20px;
     font-size: 1.8rem;
-    color: white !important;
+    color: #333; /* Default black */
+}
+
+.dark-mode .search-title {
+    color: white; /* White in dark mode */
 }
 
 .search-input {
@@ -27,14 +32,12 @@
     border-radius: 8px;
     font-size: 1rem;
     box-sizing: border-box;
-    /* Search input text color (don't change these) */
     background-color: white;
     color: #333;
 }
 
 .dark-mode .search-input {
     background-color: #333;
-    /* Search input text in dark mode (don't change these) */
     color: white;
     border-color: #555;
 }
@@ -50,14 +53,13 @@
     border-radius: 8px;
     background-color: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    /* Card text color in light mode (don't change) */
     color: #333;
 }
 
 .dark-mode .search-result-card {
     background-color: #222;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    color: white !important;
+    color: white;
 }
 
 .result-header {
@@ -71,7 +73,6 @@
     margin: 0;
     font-size: 1.4rem;
     text-align: left;
-    /* Inherits color from parent card */
     color: inherit;
 }
 
@@ -79,7 +80,6 @@
     margin: 10px 0;
     text-align: left;
     line-height: 1.5;
-    /* Inherits color from parent card */
     color: inherit;
 }
 
@@ -99,7 +99,6 @@
 .action-icons i {
     font-size: 1.5rem;
     cursor: pointer;
-    /* Icons inherit text color */
     color: inherit;
 }
 
@@ -107,17 +106,27 @@
     opacity: 0.8;
 }
 
-.loading-message,
-.error-message,
+/* No results message - black in light mode, white in dark mode */
 .no-results {
     text-align: center;
     padding: 20px;
-    color: white !important;
+    color: #333; /* Default black */
+}
+
+.dark-mode .no-results {
+    color: white; /* White in dark mode */
+}
+
+.loading-message {
+    text-align: center;
+    padding: 20px;
+    color: inherit;
 }
 
 .error-message {
-    /* Error color remains red in both modes */
-    color: #dc3545;
+    text-align: center;
+    padding: 20px;
+    color: #dc3545; /* Red in both modes */
 }
 
 .delete-success-message {
