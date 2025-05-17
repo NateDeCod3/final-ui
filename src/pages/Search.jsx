@@ -1,64 +1,57 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getPosts, searchPosts, deletePost } from '../api';
+import PostCard from '../components/PostCard';
 import DeleteConfirmation from '../components/DeleteConfirmation';
+import '../styles/Search.css';
 
 const Search = ({ isDarkMode }) => {
-    const [keyword, setKeyword] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
     const [showDeletePopup, setShowDeletePopup] = useState(false);
     const [postToDelete, setPostToDelete] = useState(null);
     const searchTimeout = useRef(null);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchAllPosts = async () => {
+        const fetchInitialPosts = async () => {
             setLoading(true);
             try {
                 const posts = await getPosts();
                 setResults(posts);
             } catch (err) {
-                console.error('Error fetching all posts:', err);
-                setError('Failed to fetch data. Please try again.');
+                console.error('Error fetching posts:', err);
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchAllPosts();
+        fetchInitialPosts();
         return () => {
-            if (searchTimeout.current) {
-                clearTimeout(searchTimeout.current);
-            }
+            if (searchTimeout.current) clearTimeout(searchTimeout.current);
         };
     }, []);
 
-    const handleSearch = async (e) => {
-        const searchKey = e.target.value;
-        setKeyword(searchKey);
+    const handleSearch = (e) => {
+        const value = e.target.value;
+        setSearchTerm(value);
 
-        if (searchTimeout.current) {
-            clearTimeout(searchTimeout.current);
-        }
+        if (searchTimeout.current) clearTimeout(searchTimeout.current);
 
         searchTimeout.current = setTimeout(async () => {
-            if (!searchKey.trim()) {
+            if (!value.trim()) {
                 const posts = await getPosts();
                 setResults(posts);
                 return;
             }
 
             setLoading(true);
-            setError(null);
-
             try {
-                const searchResults = await searchPosts(searchKey);
+                const searchResults = await searchPosts(value);
                 setResults(searchResults);
             } catch (err) {
-                console.error('Error fetching search results:', err);
-                setError('Failed to fetch search results. Please try again.');
+                console.error('Error searching:', err);
             } finally {
                 setLoading(false);
             }
@@ -68,7 +61,7 @@ const Search = ({ isDarkMode }) => {
     const handleDelete = async (postId) => {
         try {
             await deletePost(postId);
-            setResults(results.filter((post) => post.id !== postId));
+            setResults(results.filter(post => post.id !== postId));
             setShowDeletePopup(false);
         } catch (err) {
             console.error('Error deleting post:', err);
@@ -76,61 +69,41 @@ const Search = ({ isDarkMode }) => {
     };
 
     return (
-        <div className={`search p-3 ${isDarkMode ? 'dark-mode' : ''}`}>
-            <h2 className="text-center mb-4">Search Posts</h2>
+        <div className={`search-page ${isDarkMode ? 'dark' : 'light'}`}>
+            <h2>Search Posts</h2>
             <input
                 type="text"
-                className="form-control mb-3"
-                placeholder="Search posts..."
-                value={keyword}
+                value={searchTerm}
                 onChange={handleSearch}
+                placeholder="Search posts..."
+                className="search-input"
             />
-            {loading && <div className="text-center">Loading...</div>}
-            {error && <div className="text-center text-danger">{error}</div>}
-            <div className="results">
+
+            {loading && <div className="loading">Searching...</div>}
+
+            <div className="search-results">
                 {results.length > 0 ? (
-                    results.map((post) => (
-                        <div
+                    results.map(post => (
+                        <PostCard
                             key={post.id}
-                            className="post-card mb-3 p-3 border rounded"
-                            style={{
-                                backgroundColor: isDarkMode ? '#222' : '#FFFFFF',
-                                color: isDarkMode ? '#FFF' : '#000',
-                                border: isDarkMode ? '1px solid #444' : '1px solid #DDD',
+                            post={post}
+                            onDelete={() => {
+                                setPostToDelete(post.id);
+                                setShowDeletePopup(true);
                             }}
-                        >
-                            <h3>{post.title}</h3>
-                            <p>{post.description}</p>
-                            {post.mediaUrl && <img src={post.mediaUrl} alt={post.title} style={{ maxWidth: '100%' }} />}
-                            <div className="d-flex justify-content-end mt-3">
-                                <button 
-                                    className="btn btn-secondary me-2" 
-                                    onClick={() => navigate(`/edit/${post.id}`)}
-                                >
-                                    <i className="bi bi-pencil"></i>
-                                </button>
-                                <button 
-                                    className="btn btn-danger" 
-                                    onClick={() => { 
-                                        setPostToDelete(post.id); 
-                                        setShowDeletePopup(true); 
-                                    }}
-                                >
-                                    <i className="bi bi-trash"></i>
-                                </button>
-                            </div>
-                        </div>
+                            isDarkMode={isDarkMode}
+                        />
                     ))
                 ) : (
-                    !loading && <div className="text-center">No results found.</div>
+                    !loading && <div className="no-results">No results found</div>
                 )}
             </div>
 
             {showDeletePopup && (
-                <DeleteConfirmation 
-                    postId={postToDelete} 
-                    onConfirm={handleDelete} 
-                    onCancel={() => setShowDeletePopup(false)} 
+                <DeleteConfirmation
+                    postId={postToDelete}
+                    onConfirm={handleDelete}
+                    onCancel={() => setShowDeletePopup(false)}
                 />
             )}
         </div>
