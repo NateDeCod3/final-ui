@@ -1,23 +1,39 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getPosts, deletePost } from '../api';
 import DeleteConfirmation from '../components/DeleteConfirmation';
 
 const Home = ({ isDarkMode }) => {
     const [data, setData] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [showDeletePopup, setShowDeletePopup] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const posts = await getPosts();
                 setData(posts);
+                setLoading(false);
             } catch (err) {
                 console.error('Error fetching data:', err);
+                setError('Failed to fetch data. Please check the API endpoint or server.');
+                setLoading(false);
             }
         };
+
         fetchData();
     }, []);
+
+    const handleNext = () => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % data.length);
+    };
+
+    const handlePrevious = () => {
+        setCurrentIndex((prevIndex) => (prevIndex - 1 + data.length) % data.length);
+    };
 
     const handleDelete = async (postId) => {
         try {
@@ -29,64 +45,73 @@ const Home = ({ isDarkMode }) => {
         }
     };
 
-    if (data.length === 0) return <div className="no-posts">No posts available</div>;
+    if (loading) {
+        return <div className="text-center">Loading...</div>;
+    }
 
-    const currentPost = data[currentIndex];
-    const isVideo = currentPost.mediaUrl?.includes('youtube.com') || currentPost.mediaUrl?.includes('youtu.be');
+    if (error) {
+        return <div className="text-center text-danger">{error}</div>;
+    }
+
+    if (data.length === 0) {
+        return <div className="text-center">No Data Available</div>;
+    }
+
+    const getImageSource = () => {
+        const defaultImage = 'https://placehold.co/600x400?text=No+Image';
+        try {
+            if (data[currentIndex]?.mediaUrl) {
+                return data[currentIndex].mediaUrl;
+            }
+            return defaultImage;
+        } catch {
+            return defaultImage;
+        }
+    };
 
     return (
-        <div className={`home-container ${isDarkMode ? 'dark-mode' : ''}`}>
+        <div className="content-container" style={{ backgroundColor: isDarkMode ? '#1e1e1e' : '#fff' }}>
             <div className="post-content">
-                <div className="post-header">
-                    <img src="https://via.placeholder.com/40" alt="User" className="user-avatar" />
-                    <span className="username">John Doe</span>
-                </div>
-
-                <div className="post-text-content">
-                    <h3 className="post-title">{currentPost.title}</h3>
-                    <p className="post-description">{currentPost.description}</p>
-                </div>
-
-                <div className="media-container">
-                    {isVideo ? (
-                        <div className="video-embed">
-                            <iframe
-                                src={`https://www.youtube.com/embed/${currentPost.mediaUrl.split('v=')[1]}`}
-                                allowFullScreen
-                                title="Embedded youtube"
-                            />
-                        </div>
-                    ) : (
-                        <img
-                            src={currentPost.mediaUrl || "https://placehold.co/600x400"}
-                            alt="Post content"
-                            className="post-image"
-                            onError={(e) => {
-                                e.target.src = 'https://placehold.co/600x400?text=No+Image';
-                            }}
-                        />
-                    )}
-                </div>
-
                 <div className="action-buttons">
                     <button 
-                        className={`edit-btn ${isDarkMode ? 'dark' : 'light'}`}
-                        onClick={() => window.location.href = `/edit/${currentPost.id}`}
+                        className="btn btn-secondary" 
+                        onClick={() => navigate(`/edit/${data[currentIndex]?.id}`)}
                     >
-                        <i className="bi bi-pencil-square"></i> Edit
+                        <i className="bi bi-pencil"></i>
                     </button>
                     <button 
-                        className={`delete-btn ${isDarkMode ? 'dark' : 'light'}`}
+                        className="btn btn-danger" 
                         onClick={() => setShowDeletePopup(true)}
                     >
-                        <i className="bi bi-trash-fill"></i> Delete
+                        <i className="bi bi-trash"></i>
+                    </button>
+                </div>
+
+                <h3 className="post-title">{data[currentIndex]?.title || 'No Title Available'}</h3>
+                <p className="post-description">
+                    {data[currentIndex]?.description || 'No Description Available'}
+                </p>
+
+                <div className="image-container">
+                    <img
+                        src={getImageSource()}
+                        alt={data[currentIndex]?.title || 'Placeholder'}
+                        onError={(e) => {
+                            e.target.src = 'https://placehold.co/600x400?text=No+Image';
+                        }}
+                    />
+                    <button className="overlay-btn left" onClick={handlePrevious}>
+                        &#8592;
+                    </button>
+                    <button className="overlay-btn right" onClick={handleNext}>
+                        &#8594;
                     </button>
                 </div>
             </div>
 
             {showDeletePopup && (
                 <DeleteConfirmation
-                    postId={currentPost.id}
+                    postId={data[currentIndex]?.id}
                     onConfirm={handleDelete}
                     onCancel={() => setShowDeletePopup(false)}
                 />
