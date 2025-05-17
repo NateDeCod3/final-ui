@@ -18,6 +18,7 @@
 .loading, .no-posts {
     text-align: center;
     padding: 40px;
+    color: white;
 }
 
 .home-page.dark .no-posts {
