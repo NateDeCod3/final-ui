@@ -1,27 +1,13 @@
-/* Original styles kept */
-.content-container {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    padding: 20px;
-}
-
-.action-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-/* Improved Post Card */
+/* Post Card Container */
 .post-card {
     border-radius: 12px;
     overflow: hidden;
     margin-bottom: 25px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
     padding-bottom: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+/* Header Section */
 .post-header {
     display: flex;
     align-items: center;
@@ -36,9 +22,14 @@
     object-fit: cover;
 }
 
-.post-content-text {
-    text-align: left;
+.username {
+    font-weight: 600;
+}
+
+/* Text Content */
+.post-text-content {
     padding: 0 15px;
+    text-align: left;
     margin-bottom: 15px;
 }
 
@@ -61,42 +52,45 @@
     font-size: 0.9rem;
 }
 
+/* Media Container */
 .media-container {
     width: 100%;
     margin: 15px 0;
 }
 
-.media-container img {
+.post-image {
     width: 100%;
     max-height: 400px;
     object-fit: contain;
     border-radius: 8px;
 }
 
-.video-wrapper {
+.video-embed {
     position: relative;
     padding-bottom: 56.25%; /* 16:9 aspect ratio */
     height: 0;
     overflow: hidden;
+    border-radius: 8px;
 }
 
-.video-wrapper iframe {
+.video-embed iframe {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    border-radius: 8px;
+    border: none;
 }
 
-.actions {
+/* Action Buttons */
+.post-actions {
     display: flex;
     justify-content: flex-end;
     padding: 0 15px;
     gap: 10px;
 }
 
-.btn-edit, .btn-delete {
+.action-btn {
     background: none;
     border: none;
     cursor: pointer;
@@ -108,45 +102,20 @@
     border-radius: 6px;
 }
 
-.btn-edit {
-    color: var(--edit-color);
+.action-btn.dark {
+    color: white;
 }
 
-.btn-delete {
-    color: var(--delete-color);
+.action-btn.light {
+    color: black;
 }
 
-/* Dark Mode */
+.action-btn:hover {
+    opacity: 0.8;
+}
+
+/* Dark Mode Styles */
 body.dark-mode .post-card {
     background-color: #222;
     border-color: #444;
-}
-
-body.dark-mode .btn-edit {
-    color: white;
-}
-
-body.dark-mode .btn-delete {
-    color: white;
-}
-
-body:not(.dark-mode) .btn-edit {
-    color: black;
-}
-
-body:not(.dark-mode) .btn-delete {
-    color: black;
-}
-
-/* Fix for the upload button */
-.upload-btn {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    padding: 0;
-    margin: 0;
-    line-height: 1;
 }
