@@ -1,91 +1,84 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPost } from '../api';
+import '../styles/Upload.css';
 
 const Upload = ({ isDarkMode }) => {
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [imageUrl, setImageUrl] = useState('');
+    const [formData, setFormData] = useState({
+        title: '',
+        description: '',
+        mediaUrl: ''
+    });
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!title || !description || !imageUrl) {
-            setMessage('All fields are required, including an image URL.');
+        if (!formData.title || !formData.description || !formData.mediaUrl) {
+            setMessage('All fields are required');
             return;
         }
 
-        const postData = {
-            title,
-            description,
-            mediaUrl: imageUrl,
-        };
-
         try {
-            await createPost(postData);
-            setMessage('Post uploaded successfully!');
-            setTitle('');
-            setDescription('');
-            setImageUrl('');
-            navigate('/');
+            await createPost(formData);
+            setMessage('Post created successfully!');
+            setFormData({ title: '', description: '', mediaUrl: '' });
+            setTimeout(() => navigate('/'), 1000);
         } catch (err) {
-            console.error('Error uploading post:', err);
-            setMessage('Failed to upload post. Please try again.');
+            setMessage(err.response?.data?.message || err.message || 'Failed to create post');
         }
     };
 
     return (
-        <div className={`upload ${isDarkMode ? 'dark-mode' : ''}`}>
-            <h2 className="text-center mb-4">Upload a Post</h2>
-            {message && <div className="alert alert-info text-center">{message}</div>}
-            <form onSubmit={handleSubmit} className="mx-auto" style={{ maxWidth: '500px' }}>
-                <div className="mb-3">
-                    <label htmlFor="title" className="form-label">Title</label>
+        <div className={`upload-page ${isDarkMode ? 'dark' : 'light'}`}>
+            <h2>Upload Post</h2>
+            {message && (
+                <div className={`message ${message.includes('success') ? 'success' : 'error'}`}>
+                    {message}
+                </div>
+            )}
+            <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label htmlFor="title">Title</label>
                     <input
                         type="text"
                         id="title"
-                        className="form-control"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        placeholder="Enter post title"
+                        name="title"
+                        value={formData.title}
+                        onChange={handleChange}
                         required
                     />
                 </div>
-                <div className="mb-3">
-                    <label htmlFor="description" className="form-label">Description</label>
+                <div className="form-group">
+                    <label htmlFor="description">Description</label>
                     <textarea
                         id="description"
-                        className="form-control"
-                        rows="4"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        placeholder="Enter post description"
-                        required
-                    ></textarea>
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="imageUrl" className="form-label">Image URL</label>
-                    <input
-                        type="text"
-                        id="imageUrl"
-                        className="form-control"
-                        value={imageUrl}
-                        onChange={(e) => setImageUrl(e.target.value)}
-                        placeholder="Paste image URL here"
+                        name="description"
+                        value={formData.description}
+                        onChange={handleChange}
                         required
                     />
                 </div>
-                <div className="d-flex justify-content-between">
-                    <button
-                        type="button"
-                        className="btn btn-secondary"
-                        onClick={() => navigate('/')}
-                    >
-                        Cancel
-                    </button>
-                    <button type="submit" className="btn btn-primary">Upload</button>
+                <div className="form-group">
+                    <label htmlFor="mediaUrl">Media URL</label>
+                    <input
+                        type="text"
+                        id="mediaUrl"
+                        name="mediaUrl"
+                        value={formData.mediaUrl}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div className="form-actions">
+                    <button type="button" onClick={() => navigate('/')}>Cancel</button>
+                    <button type="submit">Upload</button>
                 </div>
             </form>
         </div>
