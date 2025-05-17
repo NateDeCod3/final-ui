@@ -58,8 +58,7 @@
 .dark-mode .search-result-card {
     background-color: #222;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    /* Card text color in dark mode (inherits from container) */
-    color: inherit;
+    color: white !important;
 }
 
 .result-header {
