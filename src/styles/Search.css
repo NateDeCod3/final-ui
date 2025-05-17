@@ -24,6 +24,10 @@
     color: white; /* White in dark mode */
 }
 
+.dark-mode .loading-message {
+    color: white;
+}
+
 .search-input {
     width: 100%;
     padding: 12px;
