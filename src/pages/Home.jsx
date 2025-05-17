@@ -54,8 +54,8 @@ const Home = ({ isDarkMode }) => {
         }
     };
 
-    if (loading) return <div className="loading">Loading...</div>;
-    if (posts.length === 0) return <div className="no-posts">No posts available</div>;
+    if (loading) return <div className={`loading ${isDarkMode ? 'dark' : 'light'}`}>Loading...</div>;
+    if (posts.length === 0) return <div className={`no-posts ${isDarkMode ? 'dark' : 'light'}`}>No posts available</div>;
 
     return (
         <div className={`home-page ${isDarkMode ? 'dark' : 'light'}`}>
