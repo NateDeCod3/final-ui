@@ -1,0 +1,35 @@
+/* styles/Footer.css */
+.footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+    height: 60px;
+    background: linear-gradient(to right, #87CEFA, #4682B4);
+}
+
+.footer.dark-mode {
+    background: linear-gradient(to right, #001f3f, #003366);
+}
+
+.footer-icon {
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #0000FF;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.footer.dark-mode .footer-icon {
+    color: #1E90FF;
+}
+
+.footer-icon:hover {
+    transform: scale(1.1);
+    color: #00008B;
+}
+
+.footer.dark-mode .footer-icon:hover {
+    color: #FFFFFF;
+}
