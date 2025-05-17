@@ -77,7 +77,7 @@ const Search = ({ isDarkMode }) => {
 
     return (
         <div className={`search p-3 ${isDarkMode ? 'dark-mode' : ''}`}>
-            <h2 className="text-center mb-4">Search Posts</h2>
+            <h2 className={`text-center mb-4 ${isDarkMode ? 'text-white' : 'text-dark'}`}>Search Posts</h2>
             <input
                 type="text"
                 className="form-control mb-3"
@@ -85,8 +85,8 @@ const Search = ({ isDarkMode }) => {
                 value={keyword}
                 onChange={handleSearch}
             />
-            {loading && <div className="text-center">Loading...</div>}
-            {error && <div className="text-center text-danger">{error}</div>}
+            {loading && <div className={`text-center ${isDarkMode ? 'text-white' : 'text-dark'}`}>Loading...</div>}
+            {error && <div className={`text-center ${isDarkMode ? 'text-danger' : 'text-danger'}`}>{error}</div>}
             <div className="results">
                 {results.length > 0 ? (
                     results.map((post) => (
@@ -122,7 +122,7 @@ const Search = ({ isDarkMode }) => {
                         </div>
                     ))
                 ) : (
-                    !loading && <div className="text-center">No results found.</div>
+                    !loading && <div className={`text-center ${isDarkMode ? 'text-white' : 'text-dark'}`}>No results found.</div>
                 )}
             </div>
 
