@@ -6,8 +6,9 @@ const PostCard = ({ post, onDelete, isDarkMode }) => {
 
     // Extract YouTube ID if URL is provided
     const getYouTubeId = (url) => {
+        if (!url) return null;
         const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-        const match = url?.match(regExp);
+        const match = url.match(regExp);
         return (match && match[2].length === 11) ? match[2] : null;
     };
 
@@ -31,7 +32,7 @@ const PostCard = ({ post, onDelete, isDarkMode }) => {
                 <span className="username">John Doe</span>
             </div>
 
-            <div className="post-content-text">
+            <div className="post-text-content">
                 <h3 className="post-title">{post.title}</h3>
                 <p className="post-description">
                     {expanded ? post.description : `${post.description.slice(0, 100)}${post.description.length > 100 ? '...' : ''}`}
@@ -48,7 +49,7 @@ const PostCard = ({ post, onDelete, isDarkMode }) => {
 
             <div className="media-container">
                 {isVideo && videoId ? (
-                    <div className="video-wrapper">
+                    <div className="video-embed">
                         <iframe
                             src={`https://www.youtube.com/embed/${videoId}`}
                             frameBorder="0"
@@ -61,6 +62,7 @@ const PostCard = ({ post, onDelete, isDarkMode }) => {
                     <img 
                         src={post.mediaUrl || "https://placehold.co/600x400"} 
                         alt="Post media" 
+                        className="post-image"
                         onError={(e) => {
                             e.target.src = 'https://placehold.co/600x400?text=No+Image';
                         }}
@@ -68,15 +70,15 @@ const PostCard = ({ post, onDelete, isDarkMode }) => {
                 )}
             </div>
 
-            <div className="actions">
+            <div className="post-actions">
                 <button 
-                    className="btn-edit" 
+                    className={`action-btn edit-btn ${isDarkMode ? 'dark' : 'light'}`}
                     onClick={() => window.location.href = `/edit/${post.id}`}
                 >
                     <i className="bi bi-pencil-square"></i> Edit
                 </button>
                 <button 
-                    className="btn-delete" 
+                    className={`action-btn delete-btn ${isDarkMode ? 'dark' : 'light'}`}
                     onClick={() => onDelete(post.id)}
                 >
                     <i className="bi bi-trash-fill"></i> Delete
