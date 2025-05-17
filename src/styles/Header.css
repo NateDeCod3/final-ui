@@ -1,61 +1,28 @@
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 15px;
-    height: 60px;
-    box-sizing: border-box;
+    margin-bottom: 20px;
 }
 
-.header.light {
-    background: linear-gradient(to right, #87CEFA, #4682B4);
-}
-
-.header.dark {
-    background: linear-gradient(to right, #001f3f, #003366);
-}
-
-.logo {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 1.8rem;
-    transition: color 0.3s ease;
-}
-
-.header.light .logo {
-    color: #0000FF;
-}
-
-.header.dark .logo {
-    color: #1E90FF;
-}
-
-.header.light .logo:hover {
-    color: #000000;
-}
-
-.header.dark .logo:hover {
-    color: #FFFFFF;
-}
-
-.upload-btn {
-    background-color: white;
-    color: #000;
+.header-title {
     font-size: 1.5rem;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    transition: transform 0.2s ease;
+    font-weight: bold;
+    color: #333;
 }
 
-.upload-btn:hover {
-    transform: scale(1.1);
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
 }
