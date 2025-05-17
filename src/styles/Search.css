@@ -112,8 +112,7 @@
 .no-results {
     text-align: center;
     padding: 20px;
-    /* Inherits color from container */
-    color: inherit;
+    color: white !important;
 }
 
 .error-message {
