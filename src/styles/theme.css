@@ -1,8 +1,25 @@
 :root {
-    --primary-light: #1E90FF;
-    --primary-dark: #001f3f;
-    --text-light: #333;
-    --text-dark: #fff;
-    --bg-light: #f8f9fa;
-    --bg-dark: #121212;
+    /* Light Theme */
+    --light-primary: #007bff;
+    --light-secondary: #6c757d;
+    --light-bg: #ffffff;
+    --light-text: #212529;
+    --light-border: #dee2e6;
+
+    /* Dark Theme */
+    --dark-primary: #1e90ff;
+    --dark-secondary: #5a6268;
+    --dark-bg: #121212;
+    --dark-text: #f8f9fa;
+    --dark-border: #444;
+}
+
+body.light-mode {
+    background-color: var(--light-bg);
+    color: var(--light-text);
+}
+
+body.dark-mode {
+    background-color: var(--dark-bg);
+    color: var(--dark-text);
 }
