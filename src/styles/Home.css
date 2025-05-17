@@ -98,6 +98,10 @@
     color: white;
 }
 
+.dark-mode .loading {
+    color: white;
+}
+
 .delete-success-message {
     position: fixed;
     bottom: 20px;
