@@ -12,7 +12,6 @@ const Header = ({ toggleDarkMode, isDarkMode }) => {
                     ? 'linear-gradient(to right, #001f3f, #003366)'
                     : 'linear-gradient(to right, #87CEFA, #4682B4)',
                 height: '60px',
-                position: 'relative',
             }}
         >
             <button
@@ -42,22 +41,11 @@ const Header = ({ toggleDarkMode, isDarkMode }) => {
                     alignItems: 'center',
                     justifyContent: 'center',
                     border: 'none',
+                    padding: 0,
                 }}
             >
                 +
             </button>
-            <div
-                style={{
-                    position: 'absolute',
-                    bottom: '5px',
-                    right: '10px',
-                    fontSize: '0.8rem',
-                    color: isDarkMode ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.3)',
-                    pointerEvents: 'none',
-                }}
-            >
-                Z
-            </div>
         </header>
     );
 };
