@@ -20,13 +20,10 @@
     padding: 40px;
 }
 
-.loading.light, .no-posts.light {
-    color: black;
-}
-
-.loading.dark, .no-posts.dark {
+.home-page.dark .no-posts {
     color: white;
 }
+
 
 .navigation-buttons {
     display: flex;
