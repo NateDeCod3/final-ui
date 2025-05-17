@@ -50,7 +50,7 @@ const Home = ({ isDarkMode }) => {
     };
 
     if (loading) {
-        return <div className="text-center">Loading...</div>;
+        return <div className="loading text-center">Loading...</div>;
     }
 
     if (error) {
