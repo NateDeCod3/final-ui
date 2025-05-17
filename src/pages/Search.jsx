@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getPosts, searchPosts, deletePost } from '../api';
 import DeleteConfirmation from '../components/DeleteConfirmation';
+import '../styles/Search.css';
 
 const Search = ({ isDarkMode }) => {
     const [keyword, setKeyword] = useState('');
@@ -10,6 +11,7 @@ const Search = ({ isDarkMode }) => {
     const [error, setError] = useState(null);
     const [showDeletePopup, setShowDeletePopup] = useState(false);
     const [postToDelete, setPostToDelete] = useState(null);
+    const [deleteSuccess, setDeleteSuccess] = useState(false);
     const searchTimeout = useRef(null);
     const navigate = useNavigate();
 
@@ -70,59 +72,63 @@ const Search = ({ isDarkMode }) => {
             await deletePost(postId);
             setResults(results.filter((post) => post.id !== postId));
             setShowDeletePopup(false);
+            setDeleteSuccess(true);
+            setTimeout(() => setDeleteSuccess(false), 3000);
         } catch (err) {
             console.error('Error deleting post:', err);
         }
     };
 
     return (
-        <div className={`search p-3 ${isDarkMode ? 'dark-mode' : ''}`}>
-            <h2 className="text-center mb-4">Search Posts</h2>
+        <div className={`search-container ${isDarkMode ? 'dark-mode' : ''}`}>
+            <h2 className="search-title">Search Posts</h2>
             <input
                 type="text"
-                className="form-control mb-3"
+                className="search-input"
                 placeholder="Search posts..."
                 value={keyword}
                 onChange={handleSearch}
             />
-            {loading && <div className="text-center">Loading...</div>}
-            {error && <div className="text-center text-danger">{error}</div>}
-            <div className="results">
+            
+            {loading && <div className="loading-message">Loading...</div>}
+            {error && <div className="error-message">{error}</div>}
+            
+            <div className="search-results">
                 {results.length > 0 ? (
                     results.map((post) => (
-                        <div
-                            key={post.id}
-                            className="post-card mb-3 p-3 border rounded"
-                            style={{
-                                backgroundColor: isDarkMode ? '#222' : '#FFFFFF',
-                                color: isDarkMode ? '#FFF' : '#000',
-                                border: isDarkMode ? '1px solid #444' : '1px solid #DDD',
-                            }}
-                        >
-                            <h3>{post.title}</h3>
-                            <p>{post.description}</p>
-                            {post.mediaUrl && <img src={post.mediaUrl} alt={post.title} style={{ maxWidth: '100%' }} />}
-                            <div className="d-flex justify-content-end mt-3">
-                                <button 
-                                    className="btn btn-secondary me-2" 
-                                    onClick={() => navigate(`/edit/${post.id}`)}
-                                >
-                                    <i className="bi bi-pencil"></i>
-                                </button>
-                                <button 
-                                    className="btn btn-danger" 
-                                    onClick={() => { 
-                                        setPostToDelete(post.id); 
-                                        setShowDeletePopup(true); 
-                                    }}
-                                >
-                                    <i className="bi bi-trash"></i>
-                                </button>
+                        <div key={post.id} className="search-result-card">
+                            <div className="result-header">
+                                <h3 className="result-title">{post.title}</h3>
+                                <div className="action-icons">
+                                    <i 
+                                        className="bi bi-pencil" 
+                                        onClick={() => navigate(`/edit/${post.id}`)}
+                                    ></i>
+                                    <i 
+                                        className="bi bi-trash" 
+                                        onClick={() => {
+                                            setPostToDelete(post.id);
+                                            setShowDeletePopup(true);
+                                        }}
+                                    ></i>
+                                </div>
                             </div>
+                            <p className="result-description">{post.description}</p>
+                            {post.mediaUrl && (
+                                <div className="result-media">
+                                    <img 
+                                        src={post.mediaUrl} 
+                                        alt={post.title} 
+                                        onError={(e) => {
+                                            e.target.src = 'https://placehold.co/600x400?text=No+Image';
+                                        }}
+                                    />
+                                </div>
+                            )}
                         </div>
                     ))
                 ) : (
-                    !loading && <div className="text-center">No results found.</div>
+                    !loading && <div className="no-results">No results found.</div>
                 )}
             </div>
 
@@ -132,6 +138,12 @@ const Search = ({ isDarkMode }) => {
                     onConfirm={handleDelete} 
                     onCancel={() => setShowDeletePopup(false)} 
                 />
+            )}
+
+            {deleteSuccess && (
+                <div className="delete-success-message">
+                    Post deleted successfully!
+                </div>
             )}
         </div>
     );
