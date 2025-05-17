@@ -1,17 +1,9 @@
-/* Original styles (kept intact) */
+/* Original styles kept */
 .content-container {
     display: flex;
     flex-direction: column;
     height: 100%;
     padding: 20px;
-}
-
-.post-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
 }
 
 .action-buttons {
@@ -21,26 +13,19 @@
     margin-top: 20px;
 }
 
-/* New styles (added improvements) */
+/* Improved Post Card */
 .post-card {
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
     margin-bottom: 25px;
     border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.post-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    padding-bottom: 15px;
 }
 
 .post-header {
     display: flex;
     align-items: center;
     padding: 15px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .user-avatar {
@@ -51,21 +36,20 @@
     object-fit: cover;
 }
 
-.username {
-    font-weight: 600;
+.post-content-text {
+    text-align: left;
+    padding: 0 15px;
+    margin-bottom: 15px;
 }
 
 .post-title {
     font-size: 1.4rem;
-    margin: 0 15px 10px;
-    color: inherit;
+    margin: 0 0 10px 0;
 }
 
 .post-description {
-    padding: 0 15px;
-    margin-bottom: 15px;
-    color: inherit;
     line-height: 1.5;
+    margin-bottom: 10px;
 }
 
 .expand-btn {
@@ -73,77 +57,96 @@
     border: none;
     color: #1E90FF;
     cursor: pointer;
-    padding: 0 15px;
-    margin-bottom: 10px;
+    padding: 0;
     font-size: 0.9rem;
 }
 
-.image-container {
+.media-container {
+    width: 100%;
+    margin: 15px 0;
+}
+
+.media-container img {
     width: 100%;
     max-height: 400px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
     overflow: hidden;
 }
 
-.image-container img {
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: auto;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.post-card:hover .image-container img {
-    transform: scale(1.03);
+    height: 100%;
+    border-radius: 8px;
 }
 
 .actions {
     display: flex;
     justify-content: flex-end;
-    padding: 10px 15px;
+    padding: 0 15px;
     gap: 10px;
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.btn {
-    padding: 8px 16px;
+.btn-edit, .btn-delete {
+    background: none;
     border: none;
-    border-radius: 6px;
     cursor: pointer;
     font-size: 0.9rem;
-    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     gap: 5px;
+    padding: 8px 12px;
+    border-radius: 6px;
 }
 
 .btn-edit {
-    background-color: #f0f0f0;
-    color: #333;
-}
-
-.btn-edit:hover {
-    background-color: #e0e0e0;
+    color: var(--edit-color);
 }
 
 .btn-delete {
-    background-color: #ff4d4d;
-    color: white;
+    color: var(--delete-color);
 }
 
-.btn-delete:hover {
-    background-color: #e60000;
-}
-
-/* Dark mode overrides (preserved from your original) */
+/* Dark Mode */
 body.dark-mode .post-card {
     background-color: #222;
     border-color: #444;
 }
 
 body.dark-mode .btn-edit {
-    background-color: #333;
-    color: #ddd;
+    color: white;
 }
 
-body.dark-mode .btn-edit:hover {
-    background-color: #444;
+body.dark-mode .btn-delete {
+    color: white;
+}
+
+body:not(.dark-mode) .btn-edit {
+    color: black;
+}
+
+body:not(.dark-mode) .btn-delete {
+    color: black;
+}
+
+/* Fix for the upload button */
+.upload-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
 }
