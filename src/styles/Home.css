@@ -7,18 +7,17 @@
 
 .home-page.light {
     background-color: white;
-    color: #333;
+    color: #333 !important;
 }
 
 .home-page.dark {
     background-color: #1e1e1e;
-    color: white;
+    color: white !important;
 }
 
 .loading, .no-posts {
     text-align: center;
     padding: 40px;
-    color: white;
 }
 
 .home-page.dark .no-posts {
