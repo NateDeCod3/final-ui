@@ -1,7 +1,9 @@
+// pages/Home.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getPosts, deletePost } from '../api';
 import DeleteConfirmation from '../components/DeleteConfirmation';
+import '../styles/Home.css';
 
 const Home = ({ isDarkMode }) => {
     const [data, setData] = useState([]);
@@ -9,6 +11,7 @@ const Home = ({ isDarkMode }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showDeletePopup, setShowDeletePopup] = useState(false);
+    const [deleteSuccess, setDeleteSuccess] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -40,6 +43,8 @@ const Home = ({ isDarkMode }) => {
             await deletePost(postId);
             setData(data.filter((post) => post.id !== postId));
             setShowDeletePopup(false);
+            setDeleteSuccess(true);
+            setTimeout(() => setDeleteSuccess(false), 3000);
         } catch (err) {
             console.error('Error deleting post:', err);
         }
@@ -54,7 +59,13 @@ const Home = ({ isDarkMode }) => {
     }
 
     if (data.length === 0) {
-        return <div className="text-center">No Data Available</div>;
+        return (
+            <div className={`no-data ${isDarkMode ? 'dark-mode' : ''}`}>
+                <div className="no-data-content">
+                    <p>No Data Available</p>
+                </div>
+            </div>
+        );
     }
 
     const getImageSource = () => {
@@ -70,24 +81,22 @@ const Home = ({ isDarkMode }) => {
     };
 
     return (
-        <div className="content-container" style={{ backgroundColor: isDarkMode ? '#1e1e1e' : '#fff' }}>
+        <div className={`content-container ${isDarkMode ? 'dark-mode' : ''}`}>
             <div className="post-content">
-                <div className="action-buttons">
-                    <button 
-                        className="btn btn-secondary" 
-                        onClick={() => navigate(`/edit/${data[currentIndex]?.id}`)}
-                    >
-                        <i className="bi bi-pencil"></i>
-                    </button>
-                    <button 
-                        className="btn btn-danger" 
-                        onClick={() => setShowDeletePopup(true)}
-                    >
-                        <i className="bi bi-trash"></i>
-                    </button>
+                <div className="post-header">
+                    <h3 className="post-title">{data[currentIndex]?.title || 'No Title Available'}</h3>
+                    <div className="action-icons">
+                        <i 
+                            className="bi bi-pencil" 
+                            onClick={() => navigate(`/edit/${data[currentIndex]?.id}`)}
+                        ></i>
+                        <i 
+                            className="bi bi-trash" 
+                            onClick={() => setShowDeletePopup(true)}
+                        ></i>
+                    </div>
                 </div>
-
-                <h3 className="post-title">{data[currentIndex]?.title || 'No Title Available'}</h3>
+                
                 <p className="post-description">
                     {data[currentIndex]?.description || 'No Description Available'}
                 </p>
@@ -115,6 +124,12 @@ const Home = ({ isDarkMode }) => {
                     onConfirm={handleDelete}
                     onCancel={() => setShowDeletePopup(false)}
                 />
+            )}
+
+            {deleteSuccess && (
+                <div className="delete-success-message">
+                    Post deleted successfully!
+                </div>
             )}
         </div>
     );
