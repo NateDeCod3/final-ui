@@ -9,17 +9,21 @@ const Header = ({ toggleDarkMode, isDarkMode }) => {
             <button
                 className="logo"
                 onClick={toggleDarkMode}
-                style={{
-                    color: isDarkMode ? '#1E90FF' : '#0000FF',
-                    fontWeight: 'bold',
-                    fontSize: '1.8rem',
-                }}
+                style={{ color: isDarkMode ? '#1E90FF' : '#0000FF' }}
             >
                 Z
             </button>
             <button
                 className="upload-btn"
                 onClick={() => navigate('/upload')}
+                style={{
+                    backgroundColor: 'white',
+                    color: '#000',
+                    fontSize: '1.5rem',
+                    borderRadius: '50%',
+                    padding: '10px 15px',
+                    border: 'none',
+                }}
             >
                 +
             </button>
