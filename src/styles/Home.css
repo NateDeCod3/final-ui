@@ -7,7 +7,7 @@
 
 .home-page.light {
     background-color: white;
-    color: #333 !important;
+    color: #333;
 }
 
 .home-page.dark {
@@ -21,9 +21,8 @@
 }
 
 .home-page.dark .no-posts {
-    color: white;
+    color: #aaa;
 }
-
 
 .navigation-buttons {
     display: flex;
