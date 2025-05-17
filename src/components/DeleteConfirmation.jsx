@@ -14,3 +14,5 @@ const DeleteConfirmation = ({ postId, onConfirm, onCancel }) => {
         </div>
     );
 };
+
+export default DeleteConfirmation;
