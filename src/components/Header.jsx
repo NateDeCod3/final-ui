@@ -1,47 +1,45 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Header = ({ toggleDarkMode, isDarkMode }) => {
+const Footer = ({ isDarkMode }) => {
     const navigate = useNavigate();
 
     return (
-        <header className="header">
+        <footer
+            className="footer"
+            style={{
+                background: isDarkMode
+                    ? 'linear-gradient(to right, #001f3f, #003366)'
+                    : 'linear-gradient(to right, #87CEFA, #4682B4)',
+                height: '60px', // Consistent height
+            }}
+        >
             <button
-                className="logo"
-                onClick={toggleDarkMode}
+                className="footer-icon"
+                onClick={() => navigate('/')}
                 style={{
-                    color: isDarkMode ? '#1E90FF' : '#0000FF',
-                    fontWeight: 'bold',
-                    fontSize: '1.8rem',
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
+                    color: isDarkMode ? '#1E90FF' : '#0000FF', // Same color as "Z"
+                    fontSize: '1.5rem',
                 }}
-                onMouseEnter={(e) => (e.target.style.color = isDarkMode ? '#FFFFFF' : '#000000')}
+                onMouseEnter={(e) => (e.target.style.color = isDarkMode ? '#FFFFFF' : '#00008B')}
                 onMouseLeave={(e) => (e.target.style.color = isDarkMode ? '#1E90FF' : '#0000FF')}
             >
-                Z
+                <i className="bi bi-house-fill"></i>
             </button>
             <button
-                className="upload-btn"
-                onClick={() => navigate('/upload')}
-            >
-                +
-            </button>
-            <div
+                className="footer-icon"
+                onClick={() => navigate('/search')}
                 style={{
-                    position: 'absolute',
-                    bottom: '5px',
-                    right: '10px',
-                    fontSize: '0.8rem',
-                    color: isDarkMode ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.3)',
-                    pointerEvents: 'none',
+                    color: isDarkMode ? '#1E90FF' : '#0000FF', // Match home icon color in light mode
+                    fontSize: '1.5rem',
                 }}
+                onMouseEnter={(e) => (e.target.style.color = isDarkMode ? '#FFFFFF' : '#00008B')}
+                onMouseLeave={(e) => (e.target.style.color = isDarkMode ? '#1E90FF' : '#0000FF')}
             >
-                Z
-            </div>
-        </header>
+                <i className="bi bi-search"></i>
+            </button>
+        </footer>
     );
 };
 
-export default Header;
+export default Footer;
