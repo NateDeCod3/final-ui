@@ -5,24 +5,22 @@ import { createPost } from '../api';
 const Upload = ({ isDarkMode }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [mediaUrl, setMediaUrl] = useState('');
-    const [mediaType, setMediaType] = useState('image');
+    const [imageUrl, setImageUrl] = useState('');
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!title || !description || !mediaUrl) {
-            setMessage('All fields are required.');
+        if (!title || !description || !imageUrl) {
+            setMessage('All fields are required, including an image URL.');
             return;
         }
 
         const postData = {
             title,
             description,
-            mediaUrl,
-            mediaType
+            mediaUrl: imageUrl,
         };
 
         try {
@@ -30,7 +28,7 @@ const Upload = ({ isDarkMode }) => {
             setMessage('Post uploaded successfully!');
             setTitle('');
             setDescription('');
-            setMediaUrl('');
+            setImageUrl('');
             navigate('/');
         } catch (err) {
             console.error('Error uploading post:', err);
@@ -68,28 +66,14 @@ const Upload = ({ isDarkMode }) => {
                     ></textarea>
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="mediaType" className="form-label">Media Type</label>
-                    <select
-                        id="mediaType"
-                        className="form-control"
-                        value={mediaType}
-                        onChange={(e) => setMediaType(e.target.value)}
-                    >
-                        <option value="image">Image</option>
-                        <option value="video">Video (YouTube or direct link)</option>
-                    </select>
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="mediaUrl" className="form-label">
-                        {mediaType === 'image' ? 'Image URL' : 'Video URL'}
-                    </label>
+                    <label htmlFor="imageUrl" className="form-label">Image URL</label>
                     <input
                         type="text"
-                        id="mediaUrl"
+                        id="imageUrl"
                         className="form-control"
-                        value={mediaUrl}
-                        onChange={(e) => setMediaUrl(e.target.value)}
-                        placeholder={mediaType === 'image' ? 'Paste image URL here' : 'Paste YouTube or video URL here'}
+                        value={imageUrl}
+                        onChange={(e) => setImageUrl(e.target.value)}
+                        placeholder="Paste image URL here"
                         required
                     />
                 </div>
