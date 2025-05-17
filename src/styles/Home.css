@@ -1,9 +1,11 @@
-/* Post Card Container */
+/* Main Card Container */
 .post-card {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto 25px;
+    padding: 0;
     border-radius: 12px;
     overflow: hidden;
-    margin-bottom: 25px;
-    padding-bottom: 15px;
     border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
@@ -11,7 +13,7 @@
 .post-header {
     display: flex;
     align-items: center;
-    padding: 15px;
+    padding: 15px 15px 10px;
 }
 
 .user-avatar {
@@ -26,9 +28,13 @@
     font-weight: 600;
 }
 
-/* Text Content */
-.post-text-content {
+/* Content Wrapper */
+.post-content-wrapper {
     padding: 0 15px;
+}
+
+/* Text Content */
+.text-content {
     text-align: left;
     margin-bottom: 15px;
 }
@@ -36,11 +42,15 @@
 .post-title {
     font-size: 1.4rem;
     margin: 0 0 10px 0;
+    text-align: left;
+    padding: 0;
 }
 
 .post-description {
     line-height: 1.5;
-    margin-bottom: 10px;
+    margin: 0 0 10px 0;
+    text-align: left;
+    padding: 0;
 }
 
 .expand-btn {
@@ -50,10 +60,12 @@
     cursor: pointer;
     padding: 0;
     font-size: 0.9rem;
+    text-align: left;
+    display: block;
 }
 
-/* Media Container */
-.media-container {
+/* Media Content */
+.media-content {
     width: 100%;
     margin: 15px 0;
 }
@@ -62,12 +74,14 @@
     width: 100%;
     max-height: 400px;
     object-fit: contain;
+    display: block;
+    margin: 0 auto;
     border-radius: 8px;
 }
 
 .video-embed {
     position: relative;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    padding-bottom: 56.25%;
     height: 0;
     overflow: hidden;
     border-radius: 8px;
@@ -83,15 +97,16 @@
 }
 
 /* Action Buttons */
-.post-actions {
+.action-buttons {
     display: flex;
     justify-content: flex-end;
-    padding: 0 15px;
     gap: 10px;
+    padding: 10px 0 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.action-btn {
-    background: none;
+.edit-btn, .delete-btn {
+    background: transparent !important;
     border: none;
     cursor: pointer;
     font-size: 0.9rem;
@@ -99,23 +114,22 @@
     align-items: center;
     gap: 5px;
     padding: 8px 12px;
-    border-radius: 6px;
 }
 
-.action-btn.dark {
-    color: white;
+.edit-btn.dark, .delete-btn.dark {
+    color: white !important;
 }
 
-.action-btn.light {
-    color: black;
+.edit-btn.light, .delete-btn.light {
+    color: black !important;
 }
 
-.action-btn:hover {
-    opacity: 0.8;
-}
-
-/* Dark Mode Styles */
+/* Dark Mode */
 body.dark-mode .post-card {
     background-color: #222;
     border-color: #444;
+}
+
+body.dark-mode .action-buttons {
+    border-top-color: #444;
 }
