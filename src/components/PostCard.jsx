@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import "../styles/Home.css";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import '../styles/PostCard.css';
 
 const PostCard = ({ post, onDelete, isDarkMode }) => {
-    const [expanded, setExpanded] = useState(false);
+    const navigate = useNavigate();
 
     const getYouTubeId = (url) => {
         if (!url) return null;
@@ -15,7 +16,7 @@ const PostCard = ({ post, onDelete, isDarkMode }) => {
     const videoId = isVideo ? getYouTubeId(post.mediaUrl) : null;
 
     return (
-        <div className={`post-card ${isDarkMode ? "dark-mode" : ""}`}>
+        <div className={`post-card ${isDarkMode ? 'dark' : 'light'}`}>
             <div className="post-header">
                 <img 
                     src="https://via.placeholder.com/40" 
@@ -25,23 +26,11 @@ const PostCard = ({ post, onDelete, isDarkMode }) => {
                 <span className="username">John Doe</span>
             </div>
 
-            <div className="post-content-wrapper">
-                <div className="text-content">
-                    <h3 className="post-title">{post.title}</h3>
-                    <p className="post-description">
-                        {expanded ? post.description : `${post.description.slice(0, 100)}${post.description.length > 100 ? '...' : ''}`}
-                    </p>
-                    {post.description.length > 100 && (
-                        <button 
-                            className="expand-btn" 
-                            onClick={() => setExpanded(!expanded)}
-                        >
-                            {expanded ? "Show Less" : "Read More"}
-                        </button>
-                    )}
-                </div>
+            <div className="post-content">
+                <h3 className="post-title">{post.title}</h3>
+                <p className="post-description">{post.description}</p>
 
-                <div className="media-content">
+                <div className="media-container">
                     {isVideo && videoId ? (
                         <div className="video-embed">
                             <iframe
@@ -62,16 +51,16 @@ const PostCard = ({ post, onDelete, isDarkMode }) => {
                     )}
                 </div>
 
-                <div className="action-buttons">
+                <div className="post-actions">
                     <button 
-                        className={`edit-btn ${isDarkMode ? 'dark' : 'light'}`}
-                        onClick={() => window.location.href = `/edit/${post.id}`}
+                        className={`action-btn ${isDarkMode ? 'dark' : 'light'}`}
+                        onClick={() => navigate(`/edit/${post.id}`)}
                     >
                         <i className="bi bi-pencil-square"></i> Edit
                     </button>
                     <button 
-                        className={`delete-btn ${isDarkMode ? 'dark' : 'light'}`}
-                        onClick={() => onDelete(post.id)}
+                        className={`action-btn ${isDarkMode ? 'dark' : 'light'}`}
+                        onClick={onDelete}
                     >
                         <i className="bi bi-trash-fill"></i> Delete
                     </button>
