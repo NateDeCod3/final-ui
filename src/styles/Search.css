@@ -1,0 +1,123 @@
+.search-container {
+    padding: 20px;
+    height: 100%;
+    color: #333;
+}
+
+.search-container.dark-mode {
+    background-color: #1e1e1e;
+    color: white;
+}
+
+.search-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.dark-mode .search-input {
+    background-color: #333;
+    color: white;
+    border-color: #555;
+}
+
+.search-results {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.search-result-card {
+    padding: 15px;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode .search-result-card {
+    background-color: #222;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.result-title {
+    margin: 0;
+    font-size: 1.4rem;
+    text-align: left;
+}
+
+.result-description {
+    margin: 10px 0;
+    text-align: left;
+    line-height: 1.5;
+}
+
+.result-media img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.action-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.action-icons i {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: inherit;
+}
+
+.action-icons i:hover {
+    opacity: 0.8;
+}
+
+.loading-message,
+.error-message,
+.no-results {
+    text-align: center;
+    padding: 20px;
+}
+
+.error-message {
+    color: #dc3545;
+}
+
+.delete-success-message {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 1000;
+    animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; }
+}
